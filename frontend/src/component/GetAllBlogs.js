@@ -38,7 +38,7 @@ function GetAllBlogs() {
         <div className="cookieCard ">
   <p className="cookieHeading">{blog.title}</p>
   <p className="cookieDescription">{blog.description} <Link to="/">What for?</Link></p>
-  <button className="acceptButton hover:underline" onClick={()=>handleDelete(blog._id)}>delete</button>
+  <button className="acceptButton hover:underline" onClick={()=>handleDelete(blog._id)}>Delete</button>
 </div>
 
 
