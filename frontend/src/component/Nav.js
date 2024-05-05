@@ -3,14 +3,19 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Avatar } from '../components/ui/avatar'
 import { AvatarFallback, AvatarImage } from '@radix-ui/react-avatar'
-import { Facebook, Linkedin, Menu, Search, X, Youtube } from 'lucide-react'
+import { Facebook, Linkedin, Menu, Search,  SearchCheck,  Twitter, X, Youtube } from 'lucide-react'
 
 
 
 function Nav() {
   const [open, setOpen] = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
   function handleChange() {
     setOpen(!open)
+  }
+
+  function handleSearchBox(){
+    setSearchOpen(!searchOpen)
   }
 
   
@@ -31,35 +36,45 @@ function Nav() {
         </nav> */}
 
         <nav>
-          <div className='flex justify-between items-center px-14 py-6 bg-[#E5E5E5] text-[#495057]'>
+          <div className='flex justify-between items-center px-14 py-6 bg-black text-[#e5e7ea]'>
 
           <div>
             <Link to={'/'} className='text-[20px] font-bold ' style={{fontFamily:"League Spartan"}}>RUNO</Link>
           </div>
 
-        <div className="flex items-center gap-2">
-  <ul className="hidden lg:flex lg:gap-4 lg:mr-2 text-[14px] ">
-    <Link to={'/'}><a className="p-2 border-b border-red-700 hover:border-b border-red-300 cursor-pointer">Home</a></Link>
-    <Link to={'/create-blog'} ><a className="p-2 hover:border-b border-red-300 cursor-pointer">Create</a></Link>
-    <Link to={'/profile'}><a className="p-2 hover:border-b border-red-300 cursor-pointer">About</a></Link>
-    <Link to={'/'} ><a className="p-2 hover:border-b border-red-300 cursor-pointer">Contact Us</a></Link>
+          <div className="flex items-center gap-2">
+  <ul className="hidden lg:flex lg:gap-4 lg:mr-2 text-[14px]">
+    <li><Link to={'/'} className="p-2 cursor-pointer hover:border-b border-white">Home</Link></li>
+    <li><Link to={'/create-blog'} className="p-2 hover:border-b  border-white cursor-pointer">Create</Link></li>
+    <li><Link to={'/profile'} className="p-2 hover:border-b  border-white cursor-pointer">About</Link></li>
+    <li><Link to={'/'} className="p-2 hover:border-b  border-white cursor-pointer">Contact Us</Link></li>
   </ul>
 
 
 
             
-            <span class="hidden lg:block h-6 border-r border-black  "></span>
+            <span class="hidden lg:block h-6 border-r border-white  "></span>
 
-            <div className='hidden lg:flex justify-between gap-3 '>
+            <div className='hidden lg:flex justify-between gap-3 mx-2 '>
            
-            <a href="">  <X  strokeWidth={1}/></a>
+            <a href="">  <Twitter className='hover:fill-[#1DA1F2] hover:text-[#1DA1F2]' strokeWidth={1}/></a>
           
-            <a href="">  <Linkedin  strokeWidth={1}/></a>
+            <a href="">  <Linkedin className='hover:fill-[#0077b5] hover:text-[#0077b5]' strokeWidth={1}/></a>
+            <a href="">  <Facebook className='hover:fill-[#4267B2] hover:text-[#4267B2]' strokeWidth={1}/></a>
+            <a href="">  <Youtube className='hover:fill-[#FF0000] hover:text-black' strokeWidth={1}/></a>
             </div>
-            <span class="hidden lg:block h-6 border-r border-black  "></span>
-            <div className='hidden lg:block '>
-            <Search strokeWidth={1} />
+            <span class="hidden lg:block h-6 border-r border-white  "></span>
+           {
+            !searchOpen? (
+              <>
+              <div className='hidden lg:block mx-4 '>
+            <Search className='cursor-pointer ' onClick={handleSearchBox} strokeWidth={1} />
             </div>
+              </>
+            ):(<div className='hidden lg:block mx-4 '>
+              <SearchCheck strokeWidth={1}  />
+            </div>)
+           }
 
             <div className='hidden lg:block'>
             <Link to={'/profile'}>
@@ -79,14 +94,14 @@ function Nav() {
 {
   open ? (
     <>
-      <X onClick={handleChange}  strokeWidth={1} /> 
+      <X className='cursor-pointer'  onClick={handleChange}  strokeWidth={1} /> 
      
 
     </>
   ):(
-   <div className='flex gap-2'>
-   <Search strokeWidth={1} />
-   <Menu onClick={handleChange} strokeWidth={1} />
+   <div className='flex gap-4'>
+   <Search className='cursor-pointer' onClick={handleSearchBox} strokeWidth={1} />
+   <Menu className='cursor-pointer'  onClick={handleChange} strokeWidth={1} />
  
    </div>
  
@@ -104,14 +119,14 @@ function Nav() {
   open ? (
     <>
       <div className='bg-black text-white w-full absolute right-0 top-0 h-screen lg:hidden'>
-      <div className='flex justify-between mx-7 p-7'>
+      <div className='flex justify-between mx-8 p-6'>
       <div>
-  <h1>RUNO</h1>
+  <h1  className='text-[20px] font-bold ' style={{fontFamily:"League Spartan"}}>RUNO</h1>
 </div>
 
         <div className='lg:hidden '>
 {
-  open ? <X onClick={handleChange}  strokeWidth={2} />  : <Menu onClick={handleChange} strokeWidth={1} />
+  open ? <X className='cursor-pointer'  onClick={handleChange}  strokeWidth={2} />  : <Menu className='cursor-pointer'  onClick={handleChange} strokeWidth={1} />
 }
 </div>
       </div>
@@ -134,10 +149,11 @@ function Nav() {
         </div>
         <div>
           <ul className='flex gap-4 justify-center'>
-            <a href="">  <X  strokeWidth={1}/></a>
-            <a href="">  <Linkedin  strokeWidth={1}/></a>
-            <a href="">  <Facebook  strokeWidth={1}/></a>
-            <a href="">  <Youtube  strokeWidth={1}/></a>
+          <Link href="">  <Twitter className='hover:fill-[#1DA1F2] hover:text-[#1DA1F2]' strokeWidth={1}/></Link>
+          
+          <Link href="">  <Linkedin className='hover:fill-[#0077b5] hover:text-[#0077b5]' strokeWidth={1}/></Link>
+          <Link href="">  <Facebook className='hover:fill-[#4267B2] hover:text-[#4267B2]' strokeWidth={1}/></Link>
+          <Link to={'https://www.youtube.com'}>  <Youtube className='hover:fill-[#FF0000] hover:text-black' strokeWidth={1}/></Link>
           </ul>
         </div>
         <div className='text-center p-3 mt-1'>
@@ -151,6 +167,20 @@ function Nav() {
   ) :null
 }
         </nav>
+
+
+        {searchOpen ? (<>
+        <div className='relative w-full  h-full bg-gray-400'>
+       
+       
+       
+        <div className='absolute top-0 right-16 mx-12 -z-0 flex justify-center items-center  '>
+          <input type="text" placeholder='Search Here' className='w-full h-[40px] border border-black m-4 pl-4 rounded-lg'/>
+          <X className='cursor-pointer bg-black p-2 h-10 w-10 text-white rounded-lg' onClick={handleSearchBox}  strokeWidth={1} />
+        </div>
+       
+        </div>
+        </>):null}
     </>
   )
 }

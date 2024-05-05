@@ -30,7 +30,7 @@ function GetAllBlogs() {
 <>
 
 
-<div className='flex gap-5 flex-wrap m-[50px] '>
+<div className='flex gap-5 flex-wrap mt-[50px] mx-[100px] justify-start '>
 {
     data?.map((blog,index)=>{
         return(
