@@ -77,7 +77,7 @@ function Nav() {
            }
 
             <div className='hidden lg:block'>
-            <Link to={'/profile'}>
+            <Link to={'/registration'}>
                 <Avatar className="h-[40px] w-[40px]">
                 <AvatarImage src="https://github.com/shadcn.png" />
   <AvatarFallback>CN</AvatarFallback>
@@ -140,7 +140,7 @@ function Nav() {
         </ul>
 
         <div className='flex justify-center h-[220px] mt-5 mb-5 items-center '>
-        <Link to={'/profile'}>
+        <Link to={'/registration'}>
                 <Avatar className=" h-[150px] w-[150px]">
                 <AvatarImage src="https://github.com/shadcn.png" />
   <AvatarFallback>CN</AvatarFallback>

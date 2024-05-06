@@ -1,12 +1,30 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-function CreateBlog() {
+function UpdateBlog() {
+  const { id } = useParams();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchBlog = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8000/api/v2/blog/single-blog/${id}`
+        );
+        setTitle(response.data.data.title);
+        setDescription(response.data.data.description);
+      } catch (error) {
+        toast.error("Internal Server Error");
+      }
+    };
+
+    fetchBlog();
+  }, [id]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
@@ -14,25 +32,23 @@ function CreateBlog() {
       description,
     };
 
-    axios
-      .post("http://localhost:8000/api/v2/blog/create-blog", data)
-      .then((res) => {
-        if (res.data.message === "Blog Created") {
-          toast.success("Blog Created");
-          setTitle("");
-          setDescription("");
-          navigate("/");
-        }
-      })
-      .catch((err) => {
-        toast.error("Internal Server Error", err.message);
-      });
+   try {
+    const res = await axios.put(`http://localhost:8000/api/v2/blog/update-blog/${id}`, data);
+  
+      toast.success(res.data.message);
+    
+      navigate("/");
+    
+    
+   } catch (error) {
+    toast.error("Internal Server Error",error);
+    
+   }
+
   };
   return (
     <>
-
-
-      <h1 className="text-3xl font-bold text-center p-2">Create Blog</h1>
+      <h1 className="text-3xl font-bold text-center p-2">Update Blog</h1>
 
       <div className="flex justify-center items-center mt-5">
         <form onSubmit={handleSubmit}>
@@ -73,7 +89,7 @@ function CreateBlog() {
                   type="submit"
                   className="border border-blue-800 mt-3 p-1 hover:bg-blue-800 hover:text-white"
                 >
-                  Create
+                  Update
                 </button>
               </div>
             </div>
@@ -90,4 +106,4 @@ function CreateBlog() {
   );
 }
 
-export default CreateBlog;
+export default UpdateBlog;

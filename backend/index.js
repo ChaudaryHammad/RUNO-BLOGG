@@ -2,13 +2,13 @@ const express = require('express')
 const app = express()
 const connectDB = require('./database/connection')
 const cors = require('cors')
-
+const bodyParser = require('body-parser');
 
 const blog = require('./routes/blogRoutes')
 
 app.use(express.json())
 app.use(cors())
-
+app.use(bodyParser.json());
 
 app.use(express.urlencoded({extended:true}))
 
