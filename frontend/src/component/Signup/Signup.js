@@ -31,7 +31,7 @@ function Signup() {
             <CardTitle>Create an account</CardTitle>
             <CardDescription>Enter your email below to create your account.</CardDescription>
           </CardHeader>
-          <div className='w-full text-center '>
+          {/* <div className='w-full text-center '>
           <Button className="h-10">
           <svg fill="none" viewBox="2 -5 20 45" height="30" width="30" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_134_34)">
@@ -52,7 +52,7 @@ function Signup() {
   <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4" />
   <CardDescription>or continue with</CardDescription>
   <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4" />
-</div>
+</div> */}
 
           <CardContent>
             <form>

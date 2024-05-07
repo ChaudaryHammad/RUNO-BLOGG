@@ -17,7 +17,7 @@ function Login() {
             <CardTitle>Login to your account</CardTitle>
             <CardDescription>Enter your email below to login your account.</CardDescription>
           </CardHeader>
-          <div className='w-full text-center '>
+          {/* <div className='w-full text-center '>
           <Button className="h-10">
           <svg fill="none" viewBox="2 -5 20 45" height="30" width="30" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_134_34)">
@@ -38,7 +38,7 @@ function Login() {
   <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4" />
   <CardDescription>or continue with</CardDescription>
   <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4" />
-</div>
+</div> */}
           <CardContent>
             <form>
               <div className="grid w-full items-center gap-4">
@@ -73,6 +73,10 @@ function Login() {
                     )
                   }
                 </div>
+                </div>
+
+                <div className="flex flex-col space-y-1.5">
+                <CardDescription>Forgot password? <Link className='underline hover:text-gray-700'>recover now</Link></CardDescription>
                 </div>
 
                 <div className="flex flex-col space-y-1.5">

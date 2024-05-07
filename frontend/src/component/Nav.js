@@ -21,19 +21,7 @@ function Nav() {
   
   return (
     <>
-        {/* <nav className='bg-black text-white p-3 flex justify-center  items-center '>
-            <ul className='flex gap-4 items-center'>
-                <Link className='hover:underline' to={'/'}>Home</Link>
-                <Link className='hover:underline' to={'/create-blog'}>Create Blog</Link>
-                <Link to={'/profile'}>
-                <Avatar>
-                <AvatarImage src="https://github.com/shadcn.png" />
-  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-                </Link>
-                
-            </ul>
-        </nav> */}
+     
 
         <nav>
           <div className='flex justify-between items-center px-14 py-6 bg-black text-[#e5e7ea]'>
