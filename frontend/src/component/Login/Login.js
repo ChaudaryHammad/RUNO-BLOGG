@@ -11,6 +11,9 @@ function Login() {
     const [showPassword, setShowPassword] = useState(false)
     return (
       <div className='flex justify-center items-center h-screen '>
+          <Link to={'/'} className='absolute top-5 lg:left-20  '>
+  <h1  className=' text-[20px] font-bold ' style={{fontFamily:"League Spartan"}}>RUNO</h1>
+</Link>
       
           <Card className="w-[350px]">
           <CardHeader>

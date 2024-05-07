@@ -5,8 +5,9 @@ const router = Router()
 
 
 
-router.get('/get-otp',verifyUser,localVariables,getOtp)
-router.get('/verify-otp',verifyOtp)
+router.get('/generate-otp',verifyUser,localVariables,getOtp);
+router.get('/verify-otp',verifyOtp);
+
 
 
 module.exports  = router

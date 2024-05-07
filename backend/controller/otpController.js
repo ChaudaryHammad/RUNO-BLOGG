@@ -1,16 +1,26 @@
-const User = require('../Model/user')
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
+
 const otpGenerator = require('otp-generator')
+const sendMail = require('../utils/sendMail')
 
 
-const getOtp = async(req,res)=>{
-    req.app.locals.OTP = await otpGenerator.generate(6, { upperCaseAlphabets: false, lowerCaseAlphabets:false,specialChars: false });
-    res.status(201).send({
-        code:req.app.locals.OTP
-    })
+const getOtp = async (req, res) => {
+    try {
+        const { email, username } = req.user; // Extract username and email from req.user
+        const otp = otpGenerator.generate(6, { upperCaseAlphabets: false, lowerCaseAlphabets: false, specialChars: false });
+        req.app.locals.OTP = otp;
+        await sendMail({ email, username, otp }); // Pass email, username, and otp to sendMail function
+        res.status(201).send({
+            message: 'OTP sent successfully'
+        });
+    } catch (error) {
+        console.error('Error generating OTP or sending OTP email:', error);
+        res.status(500).send({
+            error: 'Failed to send OTP'
+        });
+    }
+};
 
-}
+
 
 const verifyOtp = async(req,res)=>{
     const {code} = req.query;
@@ -34,5 +44,6 @@ const verifyOtp = async(req,res)=>{
 
 module.exports = {
     verifyOtp,
-    getOtp
+    getOtp,
+ 
 }

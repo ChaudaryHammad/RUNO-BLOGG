@@ -1,7 +1,7 @@
 const User = require('../Model/user')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const otpGenerator = require('otp-generator')
+
 
 const register = async(req,res)=>{
     const {username,password,email,profile} = req.body;
@@ -64,7 +64,9 @@ const login = async(req,res)=>{
 
 
 const getUser=async(req,res)=>{
-    const {username} = req.query;
+    const {username }= req.params;
+    console.log(username)
+
     try {
         if(!username){
             return res.status(400).json({message:"Please provide a username"})
@@ -102,4 +104,56 @@ const updateUser = async(req,res)=>{
 
 
 
-module.exports = {register,login,getUser,updateUser}
+const createSession=async(req,res)=>{
+   if(req.app.locals.resetSession){
+    req.app.locals.resetSession=false;
+    res.status(201).send({
+        message:"Access granted!"
+    })
+   }
+
+   res.status(440).send({
+         error:"Session Expired!"
+    
+   })
+
+}
+
+
+
+
+
+const resetPassword=async(req,res)=>{
+
+try {
+
+    if(!req.app.locals.resetSession){
+     return res.status(401).send({
+        error:"Session Expired"
+    })   
+    }
+    const {email,password} = req.body;
+    console.log(email,password)
+    const user = await User.findOne({email})
+    if(!user){
+        return res.status(400).json({message:"User not found"})
+    }
+    const hashedPassword = await bcrypt.hash(password,10)
+    const updatedUser = await User.findByIdAndUpdate(user._id,{password:hashedPassword},{new:true})
+    if(!updatedUser){
+        return res.status(400).json({message:"Error in updating password"})
+    }
+    return res.status(200).json({message:"Password updated successfully"})
+
+    
+} catch (error) {
+    return res.status(401).send({
+        error
+    })
+}
+}
+
+
+
+
+module.exports = {register,login,getUser,updateUser,createSession,resetPassword}

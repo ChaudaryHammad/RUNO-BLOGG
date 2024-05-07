@@ -6,7 +6,8 @@ const bodyParser = require('body-parser');
 
 const blog = require('./routes/blogRoutes')
 const user = require('./routes/userRoutes')
-const otp = require('./routes/otpRoutes')
+const otp = require('./routes/otpRoutes');
+// const mail = require('./routes/mailRoutes');
 
 app.use(express.json())
 app.use(cors())
@@ -31,7 +32,9 @@ app.get('/',(req,res)=>{
 
 app.use('/api/v2/blog',blog)
 app.use('/api/v2/user',user)
+
 app.use('/api/v2/otp',otp)
+// app.use('/api/v2/sendmail',mail)
 
 connectDB()
 
