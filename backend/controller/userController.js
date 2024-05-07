@@ -64,7 +64,7 @@ const login = async(req,res)=>{
 
 
 const getUser=async(req,res)=>{
-    const {username} = req.params;
+    const {username} = req.query;
     try {
         if(!username){
             return res.status(400).json({message:"Please provide a username"})
@@ -72,7 +72,7 @@ const getUser=async(req,res)=>{
         }
         const user = await User.findOne({username})
         if(!user){
-            return res.status(400).json({message:"User not found"})
+            return res.status(400).json({message:"User not found fdd"})
         }
 
         const {password,...rest} = user._doc
@@ -101,10 +101,5 @@ const updateUser = async(req,res)=>{
 }
 
 
-const getOtp = async(req,res)=>{
-    const otp = await otpGenerator.generate(6, { upperCaseAlphabets: false, lowerCaseAlphabets:false,specialChars: false });
-    res.status(200).json({otp})
-    console.log(otp);
 
-}
-module.exports = {register,login,getUser,updateUser,getOtp}
+module.exports = {register,login,getUser,updateUser}
