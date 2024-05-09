@@ -1,15 +1,18 @@
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Avatar } from '../components/ui/avatar'
 import { AvatarFallback, AvatarImage } from '@radix-ui/react-avatar'
 import { Facebook, Linkedin, Menu, Search,  SearchCheck,  Twitter, X, Youtube } from 'lucide-react'
+import axios from 'axios'
+import toast from 'react-hot-toast'
 
 
 
 function Nav() {
   const [open, setOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
+  const [data,setData] = useState([])
   function handleChange() {
     setOpen(!open)
   }
@@ -18,7 +21,33 @@ function Nav() {
     setSearchOpen(!searchOpen)
   }
 
-  
+  useEffect(()=>{
+    const fetchData = async()=>{
+      await axios.get('http://localhost:8000/api/v2/user',{
+        withCredentials:true
+      }).then((res)=>{
+        
+    
+        setData(res.data)
+        console.log(data)
+      
+      }).catch((error)=>{
+        console.log(error)
+      } )
+    }
+    fetchData()
+  },[])
+
+  const handleLogout = async()=>{
+    await axios.get('http://localhost:8000/api/v2/user/logout',{
+      withCredentials:true
+    }).then((res)=>{
+      toast.success(res.data.message)
+      window.location.reload(true)
+    }).catch((error)=>{
+      console.log(error)
+    })
+  }
   return (
     <>
      
@@ -27,7 +56,20 @@ function Nav() {
           <div className='flex justify-between items-center px-14 py-6 bg-black text-[#e5e7ea]'>
 
           <div>
-            <Link to={'/'} className='text-[20px] font-bold ' style={{fontFamily:"League Spartan"}}>RUNO</Link>
+           
+
+             {
+                data.user ? (
+                  <>
+ <div onClick={handleLogout} className='text-[20px] font-bold cursor-pointer underline' style={{fontFamily:"League Spartan"}}>{data.user.username}</div>
+            
+                  </>
+                ):(<>
+
+                 <Link to={'/'} className='text-[20px] font-bold ' style={{fontFamily:"League Spartan"}}>RUNO</Link>
+            
+                </>)
+             }
           </div>
 
           <div className="flex items-center gap-2">

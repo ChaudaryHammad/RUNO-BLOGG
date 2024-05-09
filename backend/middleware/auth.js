@@ -3,23 +3,20 @@ const User = require('../Model/user');
 
 const Auth = async (req, res, next) => {
     try {
-        // Check if the authorization header exists
-        if (!req.headers.authorization || !req.headers.authorization.startsWith('Bearer')) {
-            return res.status(400).json({ message: "Missing or invalid Authorization header" });
-        }
+        const token = req.cookies.token;
 
-        const token = req.headers.authorization.split(" ")[1];
+        if (!token) {
+            return res.status(401).json({ message: "Unauthorized! No token found." });
+        }
+       
         const decodedToken = await jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decodedToken;
+        req.user = decodedToken.userId;
+        
         next();
     } catch (error) {
-        // If token verification fails
-        if (error.name === 'JsonWebTokenError') {
-            return res.status(401).json({ message: "Invalid token" });
-        }
-        // For other errors
         return res.status(500).json({ message: "Authentication error Invalid token" });
     }
+
 };
 
 const localVariables=async(req,res,next)=>{
@@ -32,7 +29,7 @@ const localVariables=async(req,res,next)=>{
 
 const verifyUser=async(req,res,next)=>{
     try {
-   const {email} = req.method=="Get" ? req.query : req.body;
+   const {email} =  req.body;
     const user = await User.findOne({email});
     if(!user){
         return res.status(400).json({message:"User not found"})

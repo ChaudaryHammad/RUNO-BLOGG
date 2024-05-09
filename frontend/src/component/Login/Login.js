@@ -4,11 +4,38 @@ import React, { useState } from 'react'
 import { Label } from "../../components/ui/label"
 import { Button } from '../../components/ui/button.jsx'
 import { EyeIcon, EyeOffIcon, Mail } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import toast from 'react-hot-toast'
 
 function Login() {
+  const navigate = useNavigate()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
     const [showPassword, setShowPassword] = useState(false)
+
+
+
+    const data = {
+        email,
+        password
+    }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    await axios.post('http://localhost:8000/api/v2/user/login',
+      data, { withCredentials: true }
+    ).then((res)=>{
+    toast.success(res.data.message)
+    navigate('/')
+    }).catch((error)=>{
+     
+      toast.error(error.response.data.message)
+      
+    
+    })
+  }
     return (
       <div className='flex justify-center items-center h-screen '>
           <Link to={'/'} className='absolute top-5 lg:left-20  '>
@@ -43,17 +70,17 @@ function Login() {
   <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4" />
 </div> */}
           <CardContent>
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="grid w-full items-center gap-4">
               
                 <div className="flex flex-col space-y-1.5">
                   <Label htmlFor="email">Email</Label>
-                  <Input id="email" type="email" placeholder="m@gmail.com" />
+                  <Input value={email}  onChange={(e)=>setEmail(e.target.value)} id="email" type="email" placeholder="m@gmail.com" />
                 </div>
                 <div className="flex flex-col space-y-1.5">
                   <Label htmlFor="password">Password</Label>
                 <div className='flex relative'>
-                <Input id="password" type={
+                <Input  value={password}  onChange={(e)=>setPassword(e.target.value)} id="password" type={
                             showPassword ? 'text' : 'password'
                 } />
                   {
@@ -83,7 +110,7 @@ function Login() {
                 </div>
 
                 <div className="flex flex-col space-y-1.5">
-                  <Button>Login</Button>
+                  <Button type='submit'>Login</Button>
                 </div>
                 <CardDescription>Don't have an acount?{' '}
                 

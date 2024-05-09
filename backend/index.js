@@ -3,17 +3,24 @@ const app = express()
 const connectDB = require('./database/connection')
 const cors = require('cors')
 const bodyParser = require('body-parser');
-
+const cookieParser = require('cookie-parser');
 const blog = require('./routes/blogRoutes')
 const user = require('./routes/userRoutes')
 const otp = require('./routes/otpRoutes');
 // const mail = require('./routes/mailRoutes');
 
 app.use(express.json())
-app.use(cors())
+app.use(cors(
+    {credentials: true,
+        origin: 'http://localhost:3000'
+        
+    }
+))
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 app.use(express.urlencoded({extended:true}))
+
 
 
 
