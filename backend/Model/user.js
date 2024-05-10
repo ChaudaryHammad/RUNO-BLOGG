@@ -30,9 +30,15 @@ const userSchema = new mongoose.Schema({
     address:{
         type:String
     },
-    profile:{
-        type:String
-    }
+    avatar:{
+        public_id:{
+            type:String
+        },
+        url:{
+            type:String
+        }
+        }
+    
 
 },{
     timestamps:true

@@ -36,7 +36,7 @@ function Nav() {
         
     
         setData(res.data)
-        console.log(data)
+       
       
       }).catch((error)=>{
         console.log(error)
@@ -69,7 +69,7 @@ function Nav() {
              {
                 user ? (
                   <>
- <div onClick={handleLogout} className='text-[20px] font-bold cursor-pointer underline' style={{fontFamily:"League Spartan"}}>{user?.username}</div>
+ <div className='text-[20px] font-bold cursor-pointer underline' style={{fontFamily:"League Spartan"}}>{user?.username}</div>
             
                   </>
                 ):(<>
@@ -115,9 +115,21 @@ function Nav() {
            }
 
             <div className='hidden lg:block'>
-            <Link to={'/registration'}>
+            <Link to={'/login'}>
                 <Avatar className="h-[40px] w-[40px]">
-                <AvatarImage src="https://github.com/shadcn.png" />
+                
+
+                {
+                  user ? (
+                    <>
+                    <AvatarImage src={user?.avatar?.url} />
+                    </>
+                  ):(
+                    <>
+                    <AvatarImage src="https://github.com/shadcn.png" />
+                    </>
+                  )
+                }
   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
                 </Link>
@@ -178,9 +190,19 @@ function Nav() {
         </ul>
 
         <div className='flex justify-center h-[220px] mt-5 mb-5 items-center '>
-        <Link to={'/registration'}>
+        <Link to={'/login'}>
                 <Avatar className=" h-[150px] w-[150px]">
-                <AvatarImage src="https://github.com/shadcn.png" />
+                {
+                  user ? (
+                    <>
+                    <AvatarImage src={user?.avatar?.url} />
+                    </>
+                  ):(
+                    <>
+                    <AvatarImage src="https://github.com/shadcn.png" />
+                    </>
+                  )
+                }
   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
                 </Link>
@@ -195,7 +217,7 @@ function Nav() {
           </ul>
         </div>
         <div className='text-center p-3 mt-1'>
-          <p className='underline'>Logout</p>
+          <p onClick={handleLogout}  className='cursor-pointer hover:text-gray-400 underline' >Logout</p>
           
         </div>
       </div>

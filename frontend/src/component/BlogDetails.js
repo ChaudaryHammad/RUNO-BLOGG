@@ -27,9 +27,12 @@ function BlogDetails() {
   return (
    <>
       <div className='mt-5 flex justify-center flex-col  items-center'>
-            <div>BlogDetails</div>
+            <h1 className='text-[25px] mb-5 font-extrabold !text-left'>Blog Details</h1>
             {blog ? (
                 <div>
+                   <div className='mb-5'>
+                    <img src={blog.avatar.url} className='w-[800px] h-[300px] object-cover' alt="" />
+                   </div>
                     <h1>{blog.title}</h1>
                     <p>{blog.description}</p>
                 </div>

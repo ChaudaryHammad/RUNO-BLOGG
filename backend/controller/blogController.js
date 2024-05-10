@@ -109,7 +109,7 @@ const getSingleBlog = async (req, res) => {
 
 
 const updateBlog = async (req,res)=>{
-  try {
+   try {
     const { id } = req.params; // Assuming you're passing the blog id in the request params
     const { title, description, avatar } = req.body;
 

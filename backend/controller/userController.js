@@ -1,25 +1,30 @@
 const User = require('../Model/user')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
+const cloudinary = require('cloudinary');
 const { generateToken } = require('../utils/generateToken');
 
 
 const register = async(req,res)=>{
-    const {name,password,email,profile} = req.body;
+    const {name,password,email,avatar} = req.body;
 
   try {
 
-    const existingUserName = await User.findOne({username:name})
-    if(existingUserName){
-      return res.status(400).json({message:"Username already taken"})
+    const existingUser = await User.findOne({email})
+    if(existingUser){
+      return res.status(400).json({message:"Email already taken!"})
     }
-    const existingEmail = await User.findOne({email})
-    if(existingEmail){
-     return res.status(400).json({message:"Email already taken"})
-    }
+    
+   
 
-    const hashedPassword = await bcrypt.hashSync(password,10)
-    const user = new User({username:name,password:hashedPassword,email,profile})
+    const hashedPassword = await bcrypt.hash(password,10)
+    const cloudAvatar = await cloudinary.v2.uploader.upload(avatar,{
+        folder:"avatars"
+    })
+    const user = new User({username:name,password:hashedPassword,email,avatar:{
+        public_id:cloudAvatar.public_id,
+        url:cloudAvatar.secure_url
+    }})
     await user.save().then(()=>{
        return res.status(200).json({message:"User Registered Successfully"})
         
