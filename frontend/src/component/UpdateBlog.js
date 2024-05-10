@@ -96,7 +96,8 @@ function UpdateBlog() {
 
             <div>
               <div className="w-[300px] h-[170px] bg-red-400 text-white">
-                <p className="text-center leading-[170px]">Upload Image</p>
+                <label htmlFor="avatar">
+                </label>
               </div>
             </div>
           </div>

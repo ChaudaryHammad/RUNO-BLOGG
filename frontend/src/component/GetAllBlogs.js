@@ -39,14 +39,18 @@ function GetAllBlogs() {
         {data?.map((blog, index) => {
           return (
             <div key={index}>
-              <div className="cookieCard ">
+              <div className="cookieCard !h-[400px]">
+              <div className="h-[150px] w-full">
+                <img className="h-full w-full object-contain" src={blog?.avatar?.url} alt="" />
+              </div>
                 <p className="cookieHeading">{blog.title}</p>
                 <Link to={`/blog/${blog._id}`} className="text-white underline">
                   {blog._id}
                 </Link>
                 <p className="cookieDescription">
-                  {blog.description} <Link to="/">What for?</Link>
+                  {blog.description}
                 </p>
+                <p>Views:{blog.views}</p>
                 <div className="flex gap-2 w-full justify-center">
                   <button
                     className="acceptButton hover:underline"

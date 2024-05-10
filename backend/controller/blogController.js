@@ -1,9 +1,10 @@
-const { get } = require("mongoose");
+
 const Blog = require("../Model/blog");
+const cloudinary = require("cloudinary");
 
 const setBlog = async (req, res) => {
   try {
-    const { title, description } = req.body;
+    const { title, description,avatar } = req.body;
 
     const exsistingBlog = await Blog.findOne({ title });
 
@@ -13,9 +14,19 @@ const setBlog = async (req, res) => {
       });
     }
 
+    const myCloud = await cloudinary.v2.uploader.upload(avatar, {
+      folder: "blogs",
+    });
+
+
+
     const blog = new Blog({
       title,
       description,
+      avatar:{
+        public_id:myCloud.public_id,
+        url:myCloud.secure_url
+      }
     });
 
     const savedBlog = await blog.save();
@@ -59,6 +70,7 @@ const deleteBlog = async (req, res) => {
         message: "No Blog Found",
       });
     }
+    await cloudinary.uploader.destroy(findBlog.avatar.public_id);
 
     const deleteBlogById = await Blog.findByIdAndDelete(findBlog);
 
@@ -79,9 +91,12 @@ const getSingleBlog = async (req, res) => {
         message: "No blog found with this id",
       });
     }
+    getBlog.views +=1;
+
+    await getBlog.save();
 
     res.status(200).json({
-      message: "No blog found with this id",
+      message: "Blog Found!",
       data: getBlog,
     });
   } catch (error) {
@@ -94,34 +109,52 @@ const getSingleBlog = async (req, res) => {
 
 
 const updateBlog = async (req,res)=>{
-    const blogId = req.params.id;
-   try {
-    const blog= await Blog.findById(blogId);
-    if(!blog){
-        return res.status(400).json({
-            message: "No blog found with this id",
-          });
+  try {
+    const { id } = req.params; // Assuming you're passing the blog id in the request params
+    const { title, description, avatar } = req.body;
+
+    // Find the blog by its id
+    let blog = await Blog.findById(id);
+
+    if (!blog) {
+      return res.status(404).json({
+        message: "Blog not found",
+      });
     }
 
-    const {title,description} = req.body;
-    const updatedBlog = await Blog.findByIdAndUpdate(blogId,{
-        title,
-        description
-    },{new:true});
+    // Delete the old image from Cloudinary if a new one is provided
+    if (avatar && blog.avatar && blog.avatar.public_id) {
+      await cloudinary.uploader.destroy(blog.avatar.public_id);
+    }
+
+    // Update the blog data
+    blog.title = title || blog.title;
+    blog.description = description || blog.description;
+
+    // If a new avatar is provided, upload it to Cloudinary and update the avatar data
+    if (avatar) {
+      const myCloud = await cloudinary.uploader.upload(avatar, {
+        folder: "blogs",
+      });
+      blog.avatar = {
+        public_id: myCloud.public_id,
+        url: myCloud.secure_url,
+      };
+    }
+
+    // Save the updated blog
+    const updatedBlog = await blog.save();
 
     res.status(200).json({
-        message: "Blog Updated Successfully",
-        data: updatedBlog,
-      });
-
-    
-   } catch (error) {
+      message: "Blog updated successfully",
+      data: updatedBlog,
+    });
+  } catch (error) {
     res.status(500).json({
       message: "Internal Server Error",
       error: error.message,
     });
-   }
-
+  }
 }
 module.exports = {
   setBlog,

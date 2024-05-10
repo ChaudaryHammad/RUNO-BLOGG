@@ -7,20 +7,20 @@ const cookieParser = require('cookie-parser');
 const blog = require('./routes/blogRoutes')
 const user = require('./routes/userRoutes')
 const otp = require('./routes/otpRoutes');
+const cloudinary = require("cloudinary");
 // const mail = require('./routes/mailRoutes');
 
-app.use(express.json())
+
 app.use(cors(
     {credentials: true,
         origin: 'http://localhost:3000'
         
     }
 ))
-app.use(bodyParser.json());
+
 app.use(cookieParser());
-
-app.use(express.urlencoded({extended:true}))
-
+app.use(express.json({limit: '50mb'}));
+app.use(express.urlencoded({limit: '50mb'}));
 
 
 
@@ -44,6 +44,13 @@ app.use('/api/v2/otp',otp)
 // app.use('/api/v2/sendmail',mail)
 
 connectDB()
+
+cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.CLOUD_API_KEY,
+    api_secret: process.env.CLOUD_API_SECRET
+
+})
 
 
 
