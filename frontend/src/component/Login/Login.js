@@ -7,8 +7,11 @@ import { EyeIcon, EyeOffIcon, Mail } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import toast from 'react-hot-toast'
+import { signInFail,signInStart,signInSuccess,logout } from '../../App/feature/user/userSlice.js'
+import { useDispatch } from 'react-redux'
 
 function Login() {
+  const dispatch = useDispatch()
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -24,12 +27,16 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    dispatch(signInStart())
     await axios.post('http://localhost:8000/api/v2/user/login',
       data, { withCredentials: true }
     ).then((res)=>{
+    dispatch(signInSuccess(res.data.rest))
     toast.success(res.data.message)
+    console.log(res.data)
     navigate('/')
     }).catch((error)=>{
+      dispatch(signInFail())
      
       toast.error(error.response.data.message)
       

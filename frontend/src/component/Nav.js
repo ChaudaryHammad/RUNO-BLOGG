@@ -1,15 +1,22 @@
 
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { Avatar } from '../components/ui/avatar'
 import { AvatarFallback, AvatarImage } from '@radix-ui/react-avatar'
 import { Facebook, Linkedin, Menu, Search,  SearchCheck,  Twitter, X, Youtube } from 'lucide-react'
 import axios from 'axios'
 import toast from 'react-hot-toast'
 
+import { logout } from '../App/feature/user/userSlice'
+import { useDispatch, useSelector } from 'react-redux'
+
 
 
 function Nav() {
+
+  const {user} = useSelector((state)=>state.user)
+ const location = useLocation()
+  const dispatch = useDispatch()
   const [open, setOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const [data,setData] = useState([])
@@ -42,6 +49,7 @@ function Nav() {
     await axios.get('http://localhost:8000/api/v2/user/logout',{
       withCredentials:true
     }).then((res)=>{
+      dispatch(logout())
       toast.success(res.data.message)
       window.location.reload(true)
     }).catch((error)=>{
@@ -59,9 +67,9 @@ function Nav() {
            
 
              {
-                data.user ? (
+                user ? (
                   <>
- <div onClick={handleLogout} className='text-[20px] font-bold cursor-pointer underline' style={{fontFamily:"League Spartan"}}>{data.user.username}</div>
+ <div onClick={handleLogout} className='text-[20px] font-bold cursor-pointer underline' style={{fontFamily:"League Spartan"}}>{user?.username}</div>
             
                   </>
                 ):(<>
@@ -74,10 +82,10 @@ function Nav() {
 
           <div className="flex items-center gap-2">
   <ul className="hidden lg:flex lg:gap-4 lg:mr-2 text-[14px]">
-    <li><Link to={'/'} className="p-2 cursor-pointer hover:border-b border-white">Home</Link></li>
-    <li><Link to={'/create-blog'} className="p-2 hover:border-b  border-white cursor-pointer">Create</Link></li>
-    <li><Link to={'/profile'} className="p-2 hover:border-b  border-white cursor-pointer">About</Link></li>
-    <li><Link to={'/'} className="p-2 hover:border-b  border-white cursor-pointer">Contact Us</Link></li>
+    <li><Link to={'/'} className={`${location.pathname==='/'  ? 'text-red-500':'text-white'} p-2 cursor-pointer hover:border-b border-white`}>Home</Link></li>
+    <li><Link to={'/create-blog'} className={`${location.pathname==='/create-blog'  ? 'text-red-500':'text-white'} p-2 hover:border-b  border-white cursor-pointer`}>Create</Link></li>
+    <li><Link to={'/profile'} className={` ${location.pathname==='/profile'  ? 'text-red-500':'text-white'} p-2 hover:border-b  border-white cursor-pointer`}>About</Link></li>
+    {/* <li><Link to={'/'} className={`${location.pathname==='/'  ? 'text-red-500':'text-white'} p-2 hover:border-b  border-white cursor-pointer`}>Contact Us</Link></li> */}
   </ul>
 
 
