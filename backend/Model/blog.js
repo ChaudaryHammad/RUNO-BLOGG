@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const { Schema } = mongoose;
 const blogSchema = new mongoose.Schema({
     title:{ 
         type:String,
@@ -14,6 +14,11 @@ const blogSchema = new mongoose.Schema({
         default:0
     
     },
+  
+    creator: {
+        type: String
+    },
+    
     avatar:{
         public_id: {
           type: String,

@@ -1,11 +1,13 @@
 
 const Blog = require("../Model/blog");
+const User = require("../Model/user")
 const cloudinary = require("cloudinary");
 
 const setBlog = async (req, res) => {
   try {
-    const { title, description,avatar } = req.body;
-
+    const { title, description,avatar,userId } = req.body;
+    const user = await User.findById(userId);
+ 
     const exsistingBlog = await Blog.findOne({ title });
 
     if (exsistingBlog) {
@@ -26,7 +28,10 @@ const setBlog = async (req, res) => {
       avatar:{
         public_id:myCloud.public_id,
         url:myCloud.secure_url
-      }
+      },
+      creator:user.username
+   
+       
     });
 
     const savedBlog = await blog.save();

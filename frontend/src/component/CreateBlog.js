@@ -2,12 +2,14 @@ import axios from "axios";
 import { AudioWaveform, Image } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 function CreateBlog() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [avatar, setAvatar] = useState(null);
+  const {user} = useSelector((state)=>state.user)
 
   const handleFileInputChange = async (e) => {
     const reader = new FileReader();
@@ -24,7 +26,8 @@ function CreateBlog() {
     const data = {
       title,
       description,
-      avatar
+      avatar,
+      userId:user._id
     };
 
     axios
