@@ -161,10 +161,30 @@ const updateBlog = async (req,res)=>{
     });
   }
 }
+
+
+  const getBlogPerPage = async (req,res)=>{
+    const page = req.query.page ? parseInt(req.query.page) : 1;
+    const perPage =4;
+    const skip = (page - 1 ) * perPage;
+    try {
+      const blogs = await Blog.find().skip(skip).limit(perPage);
+      res.status(200).json({
+        message:"Blogs",
+        data:blogs
+      })
+    } catch (error) {
+      res.status(500).json({
+        message: error.message,
+      })
+    }
+
+  }
 module.exports = {
   setBlog,
   getAllBlogs,
   deleteBlog,
   getSingleBlog,
-  updateBlog
+  updateBlog,
+  getBlogPerPage
 };

@@ -41,10 +41,10 @@ function BlogDetails() {
                 <>
          <div className="relative flex w-[600px] h-[70vh] items-center animate-pulse gap-2 p-4">
   <div className="flex-1">
-    <div className="mb-1 h-4 w-3/5 rounded-lg bg-slate-300 text-lg" />
-    <div className="mb-1 h-4 w-4/5 rounded-lg bg-slate-300 text-lg" />
+    <div className="mb-1 h-4 w-[50%] lg:w-3/5 rounded-lg bg-slate-300 text-lg" />
+    <div className="mb-1 h-4 w-2/5 lg:w-4/5 rounded-lg bg-slate-300 text-lg" />
 
-    <div className="h-4 w-[90%] rounded-lg bg-slate-300 text-sm" />
+    <div className="h-4 w-[20%] lg:w-[90%] rounded-lg bg-slate-300 text-sm" />
   </div>
 </div>
 

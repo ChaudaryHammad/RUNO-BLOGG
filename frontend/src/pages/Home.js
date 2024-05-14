@@ -5,14 +5,16 @@ import Nav from '../component/Nav.js'
 
 function Home() {
   return (
-    <>
+    <div className=''>
 
 
         <Nav />
 
 
-        <GetAllBlogs />
-    </>
+      <div className='mt-5 lg:mx-[100px] min-h-screen'>
+      <GetAllBlogs />
+      </div>
+    </div>
   )
 }
 
