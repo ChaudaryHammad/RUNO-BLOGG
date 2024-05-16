@@ -3,24 +3,20 @@ import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { useParams } from 'react-router-dom'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './../components/ui/card.jsx'
+import { useSelector } from 'react-redux'
 
 function BlogDetails() {
     const {id} = useParams()
     const [blog,setBlog] = useState(null)
+    const {blogs} = useSelector((state)=>state.blogs)
 
-    console.log(blog);
+   const getBlog = ()=>{
+    const blog = blogs.find((blog)=>blog._id===id)
+    setBlog(blog)
+   }
 
-    useEffect(()=>{
-       const fetchBlog = async()=>{
-        try {
-            const response = await axios.get(`http://localhost:8000/api/v2/blog/single-blog/${id}`)
-            setBlog(response.data.data)
-        } catch (error) {
-            toast.error('Internal Server Error')
-        }
-       }
-
-       fetchBlog()
+    useEffect(()=>{ 
+    getBlog()
 
     },[id])
     

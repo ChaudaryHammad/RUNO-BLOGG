@@ -2,14 +2,16 @@ import axios from "axios";
 import { AudioWaveform, Image } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { addBlog } from "../App/feature/blog/blogSlice";
 
 function CreateBlog() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [avatar, setAvatar] = useState(null);
   const {user} = useSelector((state)=>state.user)
+  const dispatch = useDispatch();
 
   const handleFileInputChange = async (e) => {
     const reader = new FileReader();
@@ -33,16 +35,17 @@ function CreateBlog() {
     axios
       .post("http://localhost:8000/api/v2/blog/create-blog", data)
       .then((res) => {
-        if (res.data.message === "Blog Created") {
-          toast.success("Blog Created");
+    
+          dispatch(addBlog(res.data.data))
+          toast.success(res.data.message);
           setTitle("");
           setDescription("");
           setAvatar();
           navigate("/");
-        }
+    
       })
       .catch((err) => {
-        toast.error("Internal Server Error", err.message);
+        toast.error(err.res.data.message);
       });
   };
   return (

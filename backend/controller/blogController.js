@@ -127,17 +127,14 @@ const updateBlog = async (req,res)=>{
       });
     }
 
-    // Delete the old image from Cloudinary if a new one is provided
-    if (avatar && blog.avatar && blog.avatar.public_id) {
-      await cloudinary.uploader.destroy(blog.avatar.public_id);
-    }
-
-    // Update the blog data
-    blog.title = title || blog.title;
-    blog.description = description || blog.description;
-
-    // If a new avatar is provided, upload it to Cloudinary and update the avatar data
+    // If a new avatar is provided, handle the upload and update
     if (avatar) {
+      // Delete the old image from Cloudinary if it exists
+      if (blog.avatar && blog.avatar.public_id) {
+        await cloudinary.uploader.destroy(blog.avatar.public_id);
+      }
+
+      // Upload the new avatar to Cloudinary
       const myCloud = await cloudinary.uploader.upload(avatar, {
         folder: "blogs",
       });
@@ -146,6 +143,7 @@ const updateBlog = async (req,res)=>{
         url: myCloud.secure_url,
       };
     }
+
 
     // Save the updated blog
     const updatedBlog = await blog.save();
@@ -165,7 +163,7 @@ const updateBlog = async (req,res)=>{
 
   const getBlogPerPage = async (req,res)=>{
     const page = req.query.page ? parseInt(req.query.page) : 1;
-    const perPage =4;
+    const perPage =2;
     const skip = (page - 1 ) * perPage;
     try {
       const blogs = await Blog.find().skip(skip).limit(perPage);

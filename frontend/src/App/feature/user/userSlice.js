@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const userSlice = createSlice({
     name: "user",
     initialState:{
-        user:null,
+        user: localStorage.getItem('user')?JSON.parse(localStorage.getItem('user')):null,
         loading:false,
         error:false
     },

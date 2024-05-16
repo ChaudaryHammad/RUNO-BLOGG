@@ -28,22 +28,6 @@ function Nav() {
     setSearchOpen(!searchOpen)
   }
 
-  useEffect(()=>{
-    const fetchData = async()=>{
-      await axios.get('http://localhost:8000/api/v2/user',{
-        withCredentials:true
-      }).then((res)=>{
-        
-    
-        setData(res.data)
-       
-      
-      }).catch((error)=>{
-        console.log(error)
-      } )
-    }
-    fetchData()
-  },[])
 
   const handleLogout = async()=>{
     await axios.get('http://localhost:8000/api/v2/user/logout',{
