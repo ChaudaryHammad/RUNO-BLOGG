@@ -1,37 +1,37 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const initialState = {
+  user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null,
+  loading: false,
+  error: false,
+};
+
 export const userSlice = createSlice({
-    name: "user",
-    initialState:{
-        user: localStorage.getItem('user')?JSON.parse(localStorage.getItem('user')):null,
-        loading:false,
-        error:false
+  name: "user",
+  initialState,
+  reducers: {
+    signInStart: (state) => {
+      state.loading = true;
     },
-    reducers:{
-        signInStart:(state)=>{
-            state.loading = true
-        },
-        signInSuccess:(state,action)=>{
-            state.user = action.payload;
-            state.loading=false;
-            state.error=false;
-        },
-        signInFail:(state)=>{
-            state.loading = false;
-            state.error = true;
-        },
+    signInSuccess: (state, action) => {
+      state.user = action.payload;
+      state.loading = false;
+      state.error = false;
+      localStorage.setItem('user', JSON.stringify(action.payload));
+    },
+    signInFail: (state) => {
+      state.loading = false;
+      state.error = true;
+    },
+    logout: (state) => {
+      state.user = null;
+      state.loading = false;
+      state.error = false;
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
+    },
+  },
+});
 
-        logout:(state)=>{
-            state.user = null;
-            state.loading=false;
-            state.error=false;
-        }
-
-
-
-    }
-})
-
-
-export const {signInStart,signInSuccess,signInFail,logout} = userSlice.actions;
+export const { signInStart, signInSuccess, signInFail, logout } = userSlice.actions;
 export default userSlice.reducer;

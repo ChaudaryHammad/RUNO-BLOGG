@@ -14,7 +14,7 @@ function Signup() {
    
     const navigate = useNavigate()
     const [avatar, setAvatar] = useState(null)
-    const [name, setName] = useState('')
+    const [username, setUserName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     
@@ -41,7 +41,7 @@ function Signup() {
 
         
     const data={
-      name,
+      username,
       email,
       password,
       avatar
@@ -112,7 +112,7 @@ function Signup() {
               <div className="grid w-full items-center gap-4">
               <div className="flex flex-col space-y-1.5">
                   <Label htmlFor="name">Name</Label>
-                  <Input value={name}  onChange={(e)=>setName(e.target.value)} id="name" type="text" placeholder="abc" />
+                  <Input value={username}  onChange={(e)=>setUserName(e.target.value)} id="name" type="text" placeholder="abc" />
                 </div>
                 <div className="flex flex-col space-y-1.5">
                   <Label htmlFor="email">Email</Label>

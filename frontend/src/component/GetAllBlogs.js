@@ -112,8 +112,15 @@ aspect-square w-8 flex justify-center items-center text-yellow-700"
                         {blog.description.length > 280 ? (
                           <>
                             {blog.description.slice(0, 280)}
-                            <span>
-                              ...
+                           
+                          </>
+                        ) : (
+                          blog.description
+                        )}
+                      </CardDescription>
+
+                      <span>
+                             
                               <Link
                                 to={`/blog/${blog._id}`}
                                 className="underline text-black"
@@ -122,11 +129,6 @@ aspect-square w-8 flex justify-center items-center text-yellow-700"
                                 Read more
                               </Link>
                             </span>
-                          </>
-                        ) : (
-                          blog.description
-                        )}
-                      </CardDescription>
 
                       <div className="flex gap-2 w-full mt-5">
                         <button

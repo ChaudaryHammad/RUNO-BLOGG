@@ -6,7 +6,7 @@ const { generateToken } = require('../utils/generateToken');
 
 
 const register = async(req,res)=>{
-    const {name,password,email,avatar} = req.body;
+    const {username,password,email,avatar} = req.body;
 
   try {
 
@@ -16,22 +16,32 @@ const register = async(req,res)=>{
     }
     
    
-
-    const hashedPassword = await bcrypt.hash(password,10)
     const cloudAvatar = await cloudinary.v2.uploader.upload(avatar,{
         folder:"avatars"
     })
-    const user = new User({username:name,password:hashedPassword,email,avatar:{
+
+    const user = new User({username,password,email,avatar:{
         public_id:cloudAvatar.public_id,
         url:cloudAvatar.secure_url
     }})
-    await user.save().then(()=>{
-       return res.status(200).json({message:"User Registered Successfully"})
-        
-    }).catch((error)=>{
-       return res.status(400).json({message:"Error in registering user",error:error})
-    }
-    )
+    
+
+    await user.save().then((user)=>{
+        try {
+            const token = generateToken(user._id)
+            // const token = jwt.sign({userId:user._id},process.env.JWT_SECRET,{expiresIn:"1h"})
+            const {password:pass,...rest} = user._doc;
+            return res.cookie("token",token,{
+                path:'/',
+                expires:new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
+                httpOnly:true,
+                sameSite:'lax'
+            }).status(201).json({token,rest,message:"User registered successfully"})
+            
+        } catch (error) {
+            return res.status(400).json({message:"Error in registering user",error:error})
+        }
+    })
     
   } catch (error) {
     return res.status(400).json({message:"Error in registering user",error:error})
