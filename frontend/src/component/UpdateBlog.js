@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { updteBlog } from "../App/feature/blog/blogSlice";
+import { backend_url } from '.././server.js'
 
 function UpdateBlog() {
   const { id } = useParams();
@@ -45,7 +46,7 @@ const handleFileInputChange=(e)=>{
     };
 
    try {
-    const res = await axios.put(`http://localhost:8000/api/v2/blog/update-blog/${id}`, data);
+    const res = await axios.put(`${backend_url}/blog/update-blog/${id}`, data);
     dispatch(updteBlog(res.data.data))
       toast.success(res.data.message);
       // navigate("/");

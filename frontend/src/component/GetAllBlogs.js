@@ -23,6 +23,8 @@ import {
 import { BarChart2, Calendar, Pencil, Trash2, User } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { getBlog } from "../App/feature/blog/blogSlice.js";
+import { backend_url } from '.././server.js'
+
 function GetAllBlogs() {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -36,7 +38,7 @@ function GetAllBlogs() {
   const fetchBlogs = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/v2/blog/get-all-blog`
+        `${backend_url}/blog/get-all-blog`
       );
 
       dispatch(getBlog(response.data.data));
@@ -53,7 +55,7 @@ function GetAllBlogs() {
   const handleDelete = async (id) => {
     try {
       await axios.delete(
-        `http://localhost:8000/api/v2/blog/delete-blog/${id} `
+        `${backend_url}/blog/delete-blog/${id} `
       );
       toast.success("Blog Deleted");
       window.location.reload();

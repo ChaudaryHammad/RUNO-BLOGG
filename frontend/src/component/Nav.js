@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Avatar } from "../components/ui/avatar";
 
 import {
@@ -27,6 +27,7 @@ import toast from "react-hot-toast";
 
 import { logout } from "../App/feature/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { backend_url } from '.././server.js'
 
 function Nav() {
   const { user } = useSelector((state) => state.user);
@@ -35,6 +36,7 @@ function Nav() {
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [data, setData] = useState([]);
+  const navigate = useNavigate()
   function handleChange() {
     setOpen(!open);
   }
@@ -45,13 +47,15 @@ function Nav() {
 
   const handleLogout = async () => {
     await axios
-      .get("http://localhost:8000/api/v2/user/logout", {
+      .get(`${backend_url}/user/logout`, {
         withCredentials: true,
       })
       .then((res) => {
         dispatch(logout());
+
         toast.success(res.data.message);
-        window.location.reload(true);
+        
+        navigate("/login")
       })
       .catch((error) => {
         console.log(error);

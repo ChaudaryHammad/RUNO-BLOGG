@@ -9,7 +9,7 @@ import axios from 'axios'
 import toast from 'react-hot-toast'
 import { signInFail,signInStart,signInSuccess,logout } from '../../App/feature/user/userSlice.js'
 import { useDispatch } from 'react-redux'
-
+import { backend_url } from '../../server.js'
 function Login() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -28,7 +28,7 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     dispatch(signInStart())
-    await axios.post('http://localhost:8000/api/v2/user/login',
+    await axios.post(`${backend_url}/user/login`,
       data, { withCredentials: true }
     ).then((res)=>{
     dispatch(signInSuccess(res.data.rest))

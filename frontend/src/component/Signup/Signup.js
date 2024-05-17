@@ -8,6 +8,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import toast from 'react-hot-toast'
 
+import { backend_url } from '../../server.js'
 
 function Signup() {
 
@@ -51,7 +52,7 @@ function Signup() {
     const handleSubmit=async(e)=>{
       e.preventDefault()
      try {
-    await axios.post(`http://localhost:8000/api/v2/user/register`,
+    await axios.post(`${backend_url}/user/register`,
         data  
       ).then((res)=>{
        

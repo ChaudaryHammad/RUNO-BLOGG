@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addBlog } from "../App/feature/blog/blogSlice";
+import { backend_url } from '.././server.js'
 
 function CreateBlog() {
   const [title, setTitle] = useState("");
@@ -33,7 +34,7 @@ function CreateBlog() {
     };
 
     axios
-      .post("http://localhost:8000/api/v2/blog/create-blog", data)
+      .post(`${backend_url}/blog/create-blog`, data)
       .then((res) => {
     
           dispatch(addBlog(res.data.data))
