@@ -65,7 +65,7 @@ function Nav() {
          
                 <Link
                   to={"/"}
-                  className="text-[20px] font-bold "
+                  className="text-[20px] font-bold underline decoration-wavy decoration-indigo-500 "
                   style={{ fontFamily: "League Spartan" }}
                 >
                   RUNO
@@ -80,7 +80,7 @@ function Nav() {
                 <Link
                   to={"/"}
                   className={`${
-                    location.pathname === "/" ? "text-red-500" : "text-white"
+                    location.pathname === "/" ? "text-indigo-500" : "text-white"
                   } p-2 cursor-pointer hover:border-b border-white`}
                 >
                   Home
@@ -91,7 +91,7 @@ function Nav() {
                   to={"/create-blog"}
                   className={`${
                     location.pathname === "/create-blog"
-                      ? "text-red-500"
+                      ? "text-indigo-500"
                       : "text-white"
                   } p-2 hover:border-b  border-white cursor-pointer`}
                 >
@@ -103,7 +103,7 @@ function Nav() {
                   to={"/profile"}
                   className={` ${
                     location.pathname === "/profile"
-                      ? "text-red-500"
+                      ? "text-indigo-500"
                       : "text-white"
                   } p-2 hover:border-b  border-white cursor-pointer`}
                 >

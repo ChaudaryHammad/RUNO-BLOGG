@@ -63,7 +63,7 @@ function GetAllBlogs() {
   };
 
   return (
-    <div className="lg:mx-[100px]  px-[50px] h-full">
+    <div className="lg:mx-[50px]  px-[50px] h-full">
       <div className="flex gap-5 flex-col flex-wrap items-center justify-center lg:flex-nowrap">
         {loading ? (
           <>
