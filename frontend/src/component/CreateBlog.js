@@ -53,7 +53,7 @@ function CreateBlog() {
     <>
 
 
-      <h1 className="text-3xl font-bold text-center p-2">Create Blog</h1>
+     
 
       <div className="flex justify-center items-center mt-5">
         <form onSubmit={handleSubmit}>

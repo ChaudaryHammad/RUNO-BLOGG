@@ -3,22 +3,12 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import {
-  Card,
-  CardContent,
+
   CardDescription,
-  CardHeader,
+  
   CardTitle,
 } from "./../components/ui/card.jsx";
 
-// import {
-//   Pagination,
-//   PaginationContent,
-//   PaginationEllipsis,
-//   PaginationItem,
-//   PaginationLink,
-//   PaginationNext,
-//   PaginationPrevious,
-// } from "./../components/ui/pagination"
 
 import { BarChart2, Calendar, Pencil, Trash2, User } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,13 +17,14 @@ import { backend_url } from '.././server.js'
 
 function GetAllBlogs() {
   const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
+
   const dispatch = useDispatch();
   const { blogs } = useSelector((state) => state.blogs);
 
+
   useEffect(() => {
     fetchBlogs();
-  }, [currentPage]);
+  }, []);
 
   const fetchBlogs = async () => {
     try {
@@ -48,9 +39,8 @@ function GetAllBlogs() {
     }
   };
 
-  // const handlePageChange = (pageNumber) => {
-  //   setCurrentPage(pageNumber);
-  // };
+
+
 
   const handleDelete = async (id) => {
     try {
@@ -62,7 +52,7 @@ function GetAllBlogs() {
     } catch (error) {
       console.log(error);
     }
-  };
+  }; 
 
   return (
     <div className="lg:mx-[50px]  px-[50px] h-full">
@@ -98,7 +88,7 @@ aspect-square w-8 flex justify-center items-center text-yellow-700"
 
                         <div className="flex items-end gap-2">
                           <User size={20} />
-                          <CardDescription> {blog.creator}</CardDescription>
+                          <CardDescription> {blog?.creator?.username}</CardDescription>
                         </div>
 
                         <div className="flex items-end gap-2">
@@ -152,23 +142,6 @@ aspect-square w-8 flex justify-center items-center text-yellow-700"
               );
             })}
 
-            {/* <Pagination>
-  <PaginationContent>
-    <PaginationItem>
-      <PaginationPrevious  className="cursor-pointer" onClick={()=>handlePageChange(currentPage-1)} />
-    </PaginationItem>
-    <PaginationItem>
-      <PaginationLink className="cursor-pointer" onClick={()=>handlePageChange(1)}>1</PaginationLink>
-    </PaginationItem>
-    <PaginationItem>
-      <PaginationLink  className="cursor-pointer" onClick={()=>handlePageChange(2)}  >2</PaginationLink>
-    </PaginationItem>
-  
-    <PaginationItem>
-      <PaginationNext   className="cursor-pointer"   onClick={()=>handlePageChange(currentPage+1)} />
-    </PaginationItem>
-  </PaginationContent>
-</Pagination> */}
           </>
         )}
       </div>

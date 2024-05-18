@@ -60,7 +60,7 @@ const handleFileInputChange=(e)=>{
   };
   return (
     <>
-      <h1 className="text-3xl font-bold text-center p-2">Update Blog</h1>
+    
 
       <div className="flex justify-center items-center mt-5">
         <form onSubmit={handleSubmit}>

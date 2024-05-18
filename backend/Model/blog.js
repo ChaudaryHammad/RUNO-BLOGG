@@ -16,7 +16,9 @@ const blogSchema = new mongoose.Schema({
     },
   
     creator: {
-        type: String
+        type:Object,
+        required:true
+        
     },
     
     avatar:{

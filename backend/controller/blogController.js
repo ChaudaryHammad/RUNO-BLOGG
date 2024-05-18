@@ -7,6 +7,9 @@ const setBlog = async (req, res) => {
   try {
     const { title, description,avatar,userId } = req.body;
     const user = await User.findById(userId);
+
+
+
  
     const exsistingBlog = await Blog.findOne({ title });
 
@@ -29,7 +32,7 @@ const setBlog = async (req, res) => {
         public_id:myCloud.public_id,
         url:myCloud.secure_url
       },
-      creator:user.username
+      creator:user
    
        
     });
@@ -113,6 +116,31 @@ const getSingleBlog = async (req, res) => {
 };
 
 
+const increaseView = async (req, res) => {
+  const blogId = req.params.id;
+
+  try {
+    const getBlog = await Blog.findById(blogId);
+    if (!getBlog) {
+      return res.status(400).json({
+        message: "No blog found with this id",
+      });
+    }
+    getBlog.views +=1;
+
+    await getBlog.save();
+
+   
+  } catch (error) {
+    res.status(500).json({
+      message: "Internal Server Error",
+      error: error.message,
+    });
+  }
+};
+
+
+
 const updateBlog = async (req,res)=>{
    try {
     const { id } = req.params; // Assuming you're passing the blog id in the request params
@@ -184,5 +212,6 @@ module.exports = {
   deleteBlog,
   getSingleBlog,
   updateBlog,
-  getBlogPerPage
+  getBlogPerPage,
+  increaseView
 };

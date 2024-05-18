@@ -4,6 +4,7 @@ import toast from 'react-hot-toast'
 import { useParams } from 'react-router-dom'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './../components/ui/card.jsx'
 import { useSelector } from 'react-redux'
+import { backend_url } from '.././server.js'
 
 function BlogDetails() {
     const {id} = useParams()
@@ -16,8 +17,16 @@ function BlogDetails() {
    }
 
     useEffect(()=>{ 
-    getBlog()
+      const handleView = async () => {
+        try {
+          await axios.put(`${backend_url}/blog/view/${id}`)
 
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    getBlog()
+handleView()
     },[id])
     
 

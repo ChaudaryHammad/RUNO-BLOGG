@@ -28,6 +28,7 @@ import toast from "react-hot-toast";
 import { logout } from "../App/feature/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { backend_url } from '.././server.js'
+import SearchComp from "./Search/SearchComp";
 
 function Nav() {
   const { user } = useSelector((state) => state.user);
@@ -246,7 +247,7 @@ function Nav() {
 
         {open ? (
           <>
-            <div className="bg-black text-white w-full absolute right-0 top-0 h-screen z-50 lg:hidden">
+            <div className="bg-black text-white w-full absolute right-0 top-0 h-screen z-50 lg:hidden ">
               <div className="flex justify-between mx-8 p-6">
                 <div>
                   <h1
@@ -376,19 +377,8 @@ function Nav() {
 
       {searchOpen ? (
         <>
-          <div className="relative w-full  h-full bg-gray-400">
-            <div className="absolute top-0 right-16 mx-12 -z-0 flex justify-center items-center  ">
-              <input
-                type="text"
-                placeholder="Search Here"
-                className="w-full h-[40px] border border-black m-4 pl-4 rounded-lg"
-              />
-              <X
-                className="cursor-pointer bg-black p-2 h-10 w-10 text-white rounded-lg"
-                onClick={handleSearchBox}
-                strokeWidth={1}
-              />
-            </div>
+          <div className=" absolute top-0 w-full h-full z-50 back" >
+           <SearchComp handleSearchBox={handleSearchBox}/>
           </div>
         </>
       ) : null}
