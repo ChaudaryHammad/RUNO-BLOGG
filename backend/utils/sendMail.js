@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const mailgen = require('mailgen');
 
 // Function to send email
 const sendMail = async (subject,message,sent_to,sent_from ) => {
@@ -15,12 +16,31 @@ const sendMail = async (subject,message,sent_to,sent_from ) => {
             }
         });
 
+        let MailGenerator = new mailgen({
+            theme:'default',
+            product:{
+                name:'Runo',
+                link:'http://localhost:3000/'
+            }
+        })
+    
+
+        let response = {
+            body:{
+                
+                intro:message,
+                outro:"Need help, or have questions? Just reply to this email, we'd love to help."
+            }
+        }
+    
+        let mail = MailGenerator.generate(response)
+
         // Construct email message
         const mailOptions = {
             from: sent_from,
             to: sent_to,
             subject: subject,
-            html: message,
+            html: mail,
 
         };
 
