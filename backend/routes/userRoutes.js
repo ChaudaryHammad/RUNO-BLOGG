@@ -2,8 +2,8 @@ const {Router} = require('express')
 const router = Router()
 const {Auth,verifyUser} = require('../middleware/auth')
 
-const {register, login,getUser,updateUser, resetPassword, createSession, logout} = require('../controller/userController')
-
+const {register, login,getUser,updateUser, logout,forgetPassword,resetPassword} = require('../controller/userController')
+ 
 
 router.post('/register',register)
 router.post('/login',login)
@@ -17,6 +17,10 @@ router.get('/',Auth,getUser)
 // router.put('/resetpassword',verifyUser,resetPassword)
 router.put('/',Auth,updateUser)
 router.get('/logout',Auth,logout)
+
+router.post('/forget-password',forgetPassword)
+router.put('/reset-password/:resetToken',resetPassword)
+
 
 
 

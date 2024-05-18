@@ -113,7 +113,7 @@ function Login() {
                 </div>
 
                 <div className="flex flex-col space-y-1.5">
-                <CardDescription>Forgot password? <Link className='underline hover:text-gray-700'>recover now</Link></CardDescription>
+                <CardDescription>Forgot password? <Link className='underline hover:text-gray-700' to={'/forget-password'}>recover now</Link></CardDescription>
                 </div>
 
                 <div className="flex flex-col space-y-1.5">

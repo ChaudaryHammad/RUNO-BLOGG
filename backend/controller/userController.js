@@ -4,6 +4,8 @@ const jwt = require('jsonwebtoken');
 const cloudinary = require('cloudinary');
 const { generateToken } = require('../utils/generateToken');
 
+const sendMail  = require('../utils/sendMail');
+
 
 const register = async(req,res)=>{
     const {username,password,email,avatar} = req.body;
@@ -45,7 +47,7 @@ const register = async(req,res)=>{
     
   } catch (error) {
     return res.status(400).json({message:"Error in registering user",error:error})
-  }
+  } 
 }
 
 
@@ -156,37 +158,113 @@ const createSession=async(req,res)=>{
 
 
 
-const resetPassword=async(req,res)=>{
+// const resetPassword=async(req,res)=>{
 
-try {
+// try {
 
-    if(!req.app.locals.resetSession){
-     return res.status(401).send({
-        error:"Session Expired"
-    })   
-    }
-    const {email,password} = req.body;
+//     if(!req.app.locals.resetSession){
+//      return res.status(401).send({
+//         error:"Session Expired"
+//     })   
+//     }
+//     const {email,password} = req.body;
    
-    const user = await User.findOne({email})
+//     const user = await User.findOne({email})
+//     if(!user){
+//         return res.status(400).json({message:"User not found"})
+//     }
+//     const hashedPassword = await bcrypt.hash(password,10)
+//     const updatedUser = await User.findByIdAndUpdate(user._id,{password:hashedPassword},{new:true})
+//     if(!updatedUser){
+//         return res.status(400).json({message:"Error in updating password"})
+//     }
+//     return res.status(200).json({message:"Password updated successfully"})
+
+    
+// } catch (error) {
+//     return res.status(401).send({
+//         error
+//     })
+// }
+// }
+
+
+const forgetPassword = async(req,res)=>{
+    const {email} = req.body;
+    const user = await User.findOne({email});
     if(!user){
         return res.status(400).json({message:"User not found"})
     }
-    const hashedPassword = await bcrypt.hash(password,10)
-    const updatedUser = await User.findByIdAndUpdate(user._id,{password:hashedPassword},{new:true})
-    if(!updatedUser){
-        return res.status(400).json({message:"Error in updating password"})
+
+   let resetToken = generateToken(user._id);
+   console.log(resetToken);
+   
+   const resetUrl = `http://localhost:3000/reset-password/${resetToken}`;
+
+     // Reset Email
+  const message = `
+  <h2>Hello ${user.username}</h2>
+  <p>Please use the url below to reset your password</p>  
+  <p>This reset link is valid for only 30minutes.</p>
+
+  <a href=${resetUrl} clicktracking=off>${resetUrl}</a>
+
+  <p>Regards...</p>
+  <p>Pinvent Team</p>
+`;
+const subject = "Password Reset Request";
+const sent_to = user.email;
+const sent_from = process.env.SMTP_USER;
+
+try {
+    await sendMail(subject, message, sent_to, sent_from);
+    res.status(200).json({ success: true, message: "Reset Email Sent" });
+  } catch (error) {
+    res.status(500).json({message:"Email not sent, please try again",error:error});
+  }
+
+}
+
+
+
+const resetPassword = async(req,res)=>{
+
+    const { password } = req.body;
+    const { resetToken } = req.params;
+    if (!resetToken) {
+      return res.status(401).json({ message: "Invalid Token" });
     }
-    return res.status(200).json({message:"Password updated successfully"})
+    try {
+      const decoded = jwt.verify(resetToken, process.env.JWT_SECRET);
+      if (!decoded) {
+        return res.status(401).json({ message: "Invalid Token" });
+      }
+      const user = await User.findById({
+        _id: decoded.Id,
+      
+      });
+      if (!user) {
+        return res.status(401).json({ message: "User not found" });
+      }
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const updatedUser = await User.findByIdAndUpdate(
+        user._id,
+        { password: hashedPassword },
+        { new: true }
+      );
+      if (!updatedUser) {
+        return res.status(400).json({ message: "Error in updating password" });
+      }
+      return res.status(200).json({ message: "Password updated successfully" });
+    } catch (error) {
+      return res.status(401).json({
+        error,
+      });
+    }
 
-    
-} catch (error) {
-    return res.status(401).send({
-        error
-    })
+
+
 }
-}
 
 
-
-
-module.exports = {register,login,getUser,updateUser,createSession,resetPassword,logout}
+module.exports = {register,login,getUser,updateUser,createSession,resetPassword,logout,forgetPassword}

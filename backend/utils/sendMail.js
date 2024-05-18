@@ -1,12 +1,15 @@
 const nodemailer = require('nodemailer');
 
 // Function to send email
-const sendMail = async ({ email, username, otp }) => {
+const sendMail = async (subject,message,sent_to,sent_from ) => {
     try {
         // Create Nodemailer transporter using Gmail SMTP
         const transporter = nodemailer.createTransport({
+    
             service: "gmail",
-            auth: {
+            host: process.env.SMTO_HOST,
+            port:587,
+             auth: {
                 user: process.env.SMTP_USER,
                 pass: process.env.SMTP_PASS
             }
@@ -14,23 +17,27 @@ const sendMail = async ({ email, username, otp }) => {
 
         // Construct email message
         const mailOptions = {
-            from: 'ch.hammadbrw01@gmail.com',
-            to: email,
-            subject: 'OTP for Account Verification',
-            html: `
-                <p>Hi ${username},</p>
-                <p>Your OTP for verification is: <strong>${otp}</strong></p>
-                <p>Please use this OTP to verify your account.</p>
-            `
+            from: sent_from,
+            to: sent_to,
+            subject: subject,
+            html: message,
+
         };
 
         // Send email
-        await transporter.sendMail(mailOptions);
+        await transporter.sendMail(mailOptions, function(err,info){
+            if(err){
+               console.log(err)
+            }
+            else{
+                console.log(info)
+            }
+        });
 
-        console.log('OTP email sent successfully');
+       
     } catch (error) {
-        console.error('Error sending OTP email:', error);
-        throw new Error('Failed to send OTP email');
+       
+        throw new Error('Failed sending email');
     }
 };
 

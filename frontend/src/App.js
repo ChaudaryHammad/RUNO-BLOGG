@@ -7,6 +7,8 @@ import BlogDetailsPage from './pages/BlogDetailsPage'
 import UpdateBlogPage from './pages/UpdateBlogPage'
 import RegistrationPage from './pages/RegistrationPage'
 import LoginPage from './pages/LoginPage';
+import ForgetPasswordPage from './pages/ForgetPasswordPage'
+import ResetPage from './pages/ResetPage'
 
 function App() {
   return (
@@ -24,6 +26,10 @@ function App() {
     <Route path="/profile" element={<ProfilePage/>} />
     <Route path="/registration" element={<RegistrationPage/>} />
     <Route path="/login" element={<LoginPage/>} />
+    <Route path="/forget-password" element={<ForgetPasswordPage/>} />
+    <Route path="/reset-password/:resetToken" element={<ResetPage/>} />
+
+
 
 
 
