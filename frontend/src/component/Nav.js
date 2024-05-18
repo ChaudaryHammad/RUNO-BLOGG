@@ -38,6 +38,32 @@ function Nav() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [data, setData] = useState([]);
   const navigate = useNavigate()
+  const [active, setActive] = useState(false);
+
+  // window.addEventListener("scroll", () => {
+  //   if (window.scrollY > 70) {
+  //     setActive(true);
+  //   } else {
+  //     setActive(false);
+  //   }
+  // });
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 70) {
+        setActive(true);
+      } else {
+        setActive(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+
   function handleChange() {
     setOpen(!open);
   }
@@ -64,8 +90,10 @@ function Nav() {
   };
   return (
     <>
-      <nav>
-        <div className="flex justify-between items-center px-14 py-6 bg-black text-[#e5e7ea]">
+      <nav className={`${
+          active === true ? " shadow-sm fixed w-full top-0 left-0 z-10" : null
+        }`} >
+        <div className={` flex justify-between items-center px-14 py-6 bg-black text-[#e5e7ea]`}>
           <div>
          
                 <Link
