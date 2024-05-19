@@ -405,7 +405,7 @@ function Nav() {
 
       {searchOpen ? (
         <>
-          <div className=" absolute top-0 w-full h-full z-50 back" >
+          <div className=" absolute top-0 w-full h-screen z-50 back" >
            <SearchComp handleSearchBox={handleSearchBox}/>
           </div>
         </>

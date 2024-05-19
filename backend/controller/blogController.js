@@ -206,6 +206,34 @@ const updateBlog = async (req,res)=>{
     }
 
   }
+
+
+  const searchBlog = async(req,res)=>{
+   
+    // console.log(key);
+    try {
+      const blogs = await Blog.find({
+        "$or":[
+          {
+            title:{$regex:req.params.key.toLowerCase(),$options:"i"}
+          },
+       
+        ]
+      })
+
+  res.status(200).json({
+    message:"Search Result",
+    data:blogs
+  })
+    } catch (error) {
+      res.status(500).json({
+        message: error.message,
+      })
+    }
+
+  }
+
+
 module.exports = {
   setBlog,
   getAllBlogs,
@@ -213,5 +241,6 @@ module.exports = {
   getSingleBlog,
   updateBlog,
   getBlogPerPage,
-  increaseView
+  increaseView,
+  searchBlog
 };

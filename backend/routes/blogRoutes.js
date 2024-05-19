@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-const {setBlog,getAllBlogs, deleteBlog, getSingleBlog,updateBlog,getBlogPerPage,increaseView} = require('../controller/blogController')
+const {setBlog,getAllBlogs, deleteBlog, getSingleBlog,updateBlog,getBlogPerPage,increaseView, searchBlog} = require('../controller/blogController')
 
 
 
@@ -11,6 +11,7 @@ const {setBlog,getAllBlogs, deleteBlog, getSingleBlog,updateBlog,getBlogPerPage,
 router.post('/create-blog',setBlog)
 router.get('/get-all-blog',getAllBlogs)
 router.get('/single-blog/:id',getSingleBlog)
+router.get('/search/:key',searchBlog)
 router.put('/view/:id',increaseView)
 
 router.get('/blogs',getBlogPerPage)
