@@ -8,7 +8,7 @@ function Profile() {
 
 
   return (
-    <div className='mx-[50px] my-[50px]'>
+    <div className=''>
     
     {
       user ? (
@@ -16,15 +16,16 @@ function Profile() {
 
 
 
-<div className='  w-full  flex justify-center gap-5 flex-wrap lg:flex-nowrap'>
+<div className='  w-full   flex justify-center gap-5 flex-wrap lg:flex-nowrap'>
  
   
 
-  <div className='w-full  p-5'>
+  <div className='w-full  p-5 '>
     <div>
       <h1 className='text-4xl font-bold text-center p-3'>Hi, I am <span className='text-blue-700 text-4xl font-light'>{user.username}</span></h1>
+      <p className='text-center'>{user.email}</p>
     
-      <div className="flex mt-5 relative items-center justify-center w-full">
+      <div className="flex flex-col gap-4  relative items-center justify-center w-full mt-4">
  
  <div className="rounded-xl overflow-hidden relative text-center p-4 group items-center flex flex-col max-w-sm hover:shadow-2xl transition-all duration-500 shadow-xl">
    <div className="text-gray-500 group-hover:scale-105 transition-all">
@@ -54,51 +55,26 @@ function Profile() {
        </a>
      </div>
    </div>
+ 
+ </div>
+
+ <div className='space-y-20'>
+<button className=' bg-black text-white px-2 py-2 rounded-md'>Delete Account</button>
+
  </div>
 </div>
+
+
     </div>
   </div>
-  <div className='p-5 w-full flex justify-center' >
-  <img className='rounded-lg h-[500px] ' src={user.avatar.url} alt="" />
-  
-  </div>
-  <div className='w-full h-full flex flex-col items-center gap-[50px]  justify-center p-5 '>
- <div className=' h-2/5'>
- <h1 className='text-4xl font-bold text-center p-3 '>About Me</h1>
- </div>
-
- <div className='flex flex-col lg:flex-row gap-3 text-center h-2/4'>
-    <div >
-      <h1 className='text-2xl font-bold'>100 +</h1>
-      <p className='p-2 bg-rose-500 text-white rounded-full'>Artilces Written</p>
-
-    </div>
-
-    <div >
-      <h1 className='text-2xl font-bold  rounded-full'>10k +</h1>
-      <p className='p-2 bg-green-500 text-white rounded-full'>Total Views</p>
-
-    </div>
-    <div >
-      <h1 className='text-2xl font-bold'>45</h1>
-      <p className='p-2 bg-indigo-500 text-white rounded-full'>Downloads</p>
-
-    </div>
- </div>
-
- <div className=' h-full text-center'>
- <h1 className='text-4xl font-bold text-center p-3 '>Contact Me </h1>
- <p>{user.email}</p>
 
 
- </div>
-  </div>
 
 </div>
 
         </div>
       ):(
-        <div>No User Found 😞</div>
+        <div className='h-[70vh] flex justify-center items-center w-full text-2xl '>No User Found 😞</div>
       )
     }</div>
   ) 

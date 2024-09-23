@@ -18,7 +18,7 @@ function Signup() {
     const [username, setUserName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    
+    const [loading, setLoading] = useState(false)
 
 
 
@@ -52,9 +52,11 @@ function Signup() {
     const handleSubmit=async(e)=>{
       e.preventDefault()
      try {
+      setLoading(true)
     await axios.post(`${backend_url}/user/register`,
         data  
       ).then((res)=>{
+        setLoading(false)
        
         toast.success(res.data.message)
         navigate('/login')
@@ -75,7 +77,7 @@ function Signup() {
     return (
 
 
-      <div className='flex justify-center items-center h-screen bg-gray-100'>
+      <div className='flex justify-center items-center h-[80vh]'>
         <Link to={'/'} className='absolute top-5 lg:left-20  '>
   <h1  className=' text-[20px] font-bold ' style={{fontFamily:"League Spartan"}}>RUNO</h1>
 </Link>
@@ -167,7 +169,7 @@ function Signup() {
                 </div>
 
                 <div className="flex flex-col space-y-1.5">
-                  <Button type='submit'>Create account</Button>
+                  <Button disabled={loading} type='submit'>{loading ? "Creating...":"Create account"}</Button>
                 </div>
                 <CardDescription>Already have an acount?{' '}
                 

@@ -4,14 +4,21 @@ const User = require('../Model/user');
 const Auth = async (req, res, next) => {
     try {
         const token = req.cookies.token;
-
+    
         if (!token) {
             return res.status(401).json({ message: "Unauthorized! No token found." });
         }
        
         const decodedToken = await jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decodedToken.userId;
-        
+
+        const userId = decodedToken.Id;
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(401).json({ message: "Unauthorized! Invalid token" });
+        }
+     
+    
+         req.user = decodedToken;
         next();
     } catch (error) {
         return res.status(500).json({ message: "Authentication error Invalid token" });

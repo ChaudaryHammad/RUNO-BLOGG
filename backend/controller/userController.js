@@ -197,7 +197,7 @@ const forgetPassword = async(req,res)=>{
     }
 
    let resetToken = generateToken(user._id);
-   console.log(resetToken);
+
    
    const resetUrl = `http://localhost:3000/reset-password/${resetToken}`;
 

@@ -1,16 +1,17 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link} from "react-router-dom";
+import { toast } from "react-hot-toast";
 
-import { useDispatch, useSelector } from "react-redux";
-import { getBlog } from "../App/feature/blog/blogSlice.js";
+
+
 import { backend_url } from ".././server.js";
 
-function GetAllBlogs() {
+function UserBlogs() {
   const [loading, setLoading] = useState(true);
 
-  const dispatch = useDispatch();
-  const { blogs } = useSelector((state) => state.blogs);
+
+const [blogs, setBlogs] = useState([]);
 
   useEffect(() => {
     fetchBlogs();
@@ -18,20 +19,35 @@ function GetAllBlogs() {
 
   const fetchBlogs = async () => {
     try {
-      const response = await axios.get(`${backend_url}/blog/get-all-blog`);
-
-      dispatch(getBlog(response.data.data));
+      const response = await axios.get(`${backend_url}/blog/get-user-blogs`,{
+        withCredentials:true
+      });
+      const data = response.data.blogs;
+        setBlogs(data);
+     
       setLoading(false);
     } catch (error) {
       console.error("Error fetching blogs:", error);
     }
   };
 
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`${backend_url}/blog/delete-blog/${id} `);
+      toast.success("Blog Deleted");
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+  
   return (
     <div className="container mx-auto p-6">
       {/* Blog List */}
       <div className=" ">
-        {blogs.length > 0 ? (
+        {blogs ? (
           blogs.map((blog, index) => (
             <div
               key={blog.id}
@@ -54,10 +70,7 @@ function GetAllBlogs() {
                   </div>
                 </div>
 
-                <Link
-                  to={`/blog/${blog._id}`}
-                  className="hover:underline decoration-black"
-                >
+                <Link to={`/blog/${blog._id}`} className="hover:underline decoration-black">
                   <h2 className="lg:text-2xl py-1 font-bold text-gray-900 hover:text-black">
                     {blog.title}
                   </h2>
@@ -91,7 +104,14 @@ function GetAllBlogs() {
                   <span className="mx-2">•</span>
                   <span>{blog.comments || 0} comments</span>
                 </div>
+
+<div className="mt-4 flex gap-5 ">
+<button  className="px-2 py-2 w-[70px] bg-red-500 text-white rounded-md"  onClick={() => handleDelete(blog._id)}>Delete</button>
+<Link to={`/update-blog/${blog._id}`}  className="px-2 text-center py-2 w-[100px] bg-green-500 text-white rounded-md"  >Edit</Link>
+
+</div>
               </div>
+
 
               {/* Thumbnail Image */}
               <div className="lg:h-full h-[240px] lg:block flex items-center">
@@ -111,4 +131,4 @@ function GetAllBlogs() {
   );
 }
 
-export default GetAllBlogs;
+export default UserBlogs;

@@ -36,32 +36,8 @@ function Nav() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-  const [data, setData] = useState([]);
+
   const navigate = useNavigate()
-  const [active, setActive] = useState(false);
-
-  window.addEventListener("scroll", () => {
-    if (window.scrollY > 70) {
-      setActive(true);
-    } else {
-      setActive(false);
-    }
-  });
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 70) {
-        setActive(true);
-      } else {
-        setActive(false);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
 
 
   function handleChange() {
@@ -90,10 +66,8 @@ function Nav() {
   };
   return (
     <>
-      <nav className={`${
-          active === true ? "transition-all duration-500 ease-in  shadow-sm fixed w-full top-0 left-0 z-10" : null
-        }`} >
-        <div className={`transition-all duration-500 ease-in  flex justify-between items-center px-14 py-6 bg-black text-[#e5e7ea]`}>
+      <nav className={`bg-[#000]  fixed w-full z-20`} >
+        <div className={`transition-all duration-500 ease-in  flex justify-between items-center px-14 py-4 bg-black/10 text-[#e5e7ea]`}>
           <div>
          
                 <Link
@@ -119,32 +93,36 @@ function Nav() {
                   Home
                 </Link>
               </li>
-             {
-              user &&  <li>
-              <Link
-                to={"/create-blog"}
-                className={`${
-                  location.pathname === "/create-blog"
-                    ? "text-indigo-500"
-                    : "text-white"
-                } p-2 hover:border-b  border-white cursor-pointer`}
-              >
-                Create
-              </Link>
-            </li>
-             }
+            
               <li>
                 <Link
-                  to={"/profile"}
+                  to={`${user?"/create-blog":"/blogs"}`}
                   className={` ${
-                    location.pathname === "/profile"
+                    location.pathname === "/create-blog"
                       ? "text-indigo-500"
                       : "text-white"
                   } p-2 hover:border-b  border-white cursor-pointer`}
                 >
-                  About
+                 {
+                    user? "Create":"Blogs"
+                 }
                 </Link>
               </li>
+
+              {
+                user &&  <li>
+                <Link
+                  to={`${"/user-blogs"}`}
+                  className={` ${
+                    location.pathname === "/user-blogs"
+                      ? "text-indigo-500"
+                      : "text-white"
+                  } p-2 hover:border-b  border-white cursor-pointer`}
+                >
+                 My Articles
+                </Link>
+              </li>
+              }
               {/* <li><Link to={'/'} className={`${location.pathname==='/'  ? 'text-red-500':'text-white'} p-2 hover:border-b  border-white cursor-pointer`}>Contact Us</Link></li> */}
             </ul>
 

@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import Login from '../component/Login/Login'
-import axios from 'axios'
+import React from "react";
+import Login from "../component/Login/Login";
 
 function LoginPage() {
   return (
-    <div><Login/></div>
-  )
+    <div>
+      <Login />
+    </div>
+  );
 }
 
-export default LoginPage
+export default LoginPage;

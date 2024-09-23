@@ -32,15 +32,17 @@ handleView()
 
   return (
    <>
-      <div className='mt-5 mx-[50px] flex lg:justify-center flex-col  '>
+      <div className='mt-5 mx-[50px] flex flex-col mb-32  '>
             <CardTitle className='text-[25px] mb-5 font-extrabold !text-left'>{blog?.title}</CardTitle>
             {blog ? (
                 <div>
-                   <div className='mb-5'>
-                    <img src={blog.avatar.url} className='w-[800px] h-[300px] object-cover' alt="" />
+                   <div className='mb-5 py-6 max-w-[1100px] lg:h-[400px] mx-auto'>
+                    <img src={blog.avatar.url} className='h-full w-full object-contain' alt="" />
                    </div>
                    
-                    <p className='text-justify'>{blog.description}</p>
+                    <span className='' dangerouslySetInnerHTML={{
+                    __html: blog.description
+                    }} />
                 </div>
             ) : (
                 <>

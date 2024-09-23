@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const blogSlice = createSlice({
     name: "blogs",
     initialState:{
-        blogs:[]
+        blogs:[],
+
     },
 
     reducers:{
@@ -19,7 +20,8 @@ const blogSlice = createSlice({
         updteBlog:(state,action)=>{
             const index = state.blogs.findIndex((blog)=>blog._id===action.payload._id)
             state.blogs[index] = action.payload
-        }
+        },
+      
 
     }
 })

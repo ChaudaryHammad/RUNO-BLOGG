@@ -3,18 +3,19 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../..
 import React, { useState } from 'react'
 import { Label } from "../../components/ui/label"
 import { Button } from '../../components/ui/button.jsx'
-import { EyeIcon, EyeOffIcon, Mail } from 'lucide-react'
+import { EyeIcon, EyeOffIcon} from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import toast from 'react-hot-toast'
-import { signInFail,signInStart,signInSuccess,logout } from '../../App/feature/user/userSlice.js'
-import { useDispatch } from 'react-redux'
+import { signInFail,signInStart,signInSuccess} from '../../App/feature/user/userSlice.js'
+import { useDispatch, useSelector } from 'react-redux'
 import { backend_url } from '../../server.js'
 function Login() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+const {loading} = useSelector((state)=>state.user)
 
     const [showPassword, setShowPassword] = useState(false)
 
@@ -44,7 +45,7 @@ function Login() {
     })
   }
     return (
-      <div className='flex justify-center items-center h-screen '>
+      <div className='flex justify-center items-center h-[80vh]'>
           <Link to={'/'} className='absolute top-5 lg:left-20  '>
   <h1  className=' text-[20px] font-bold ' style={{fontFamily:"League Spartan"}}>RUNO</h1>
 </Link>
@@ -117,7 +118,7 @@ function Login() {
                 </div>
 
                 <div className="flex flex-col space-y-1.5">
-                  <Button type='submit'>Login</Button>
+                  <Button disabled={loading} type='submit'>{loading ? "loading..." : "Login"}</Button>
                 </div>
                 <CardDescription>Don't have an acount?{' '}
                 

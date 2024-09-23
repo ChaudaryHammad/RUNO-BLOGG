@@ -53,7 +53,10 @@ const setBlog = async (req, res) => {
 
 const getAllBlogs = async (req, res) => {
   try {
-    const blogs = await Blog.find();
+    const blogs = await Blog.find().populate('creator', 'username avatar');
+
+console.log(blogs);
+
 
     res.status(200).json({
       message: "All Blogs",
@@ -67,9 +70,30 @@ const getAllBlogs = async (req, res) => {
   }
 };
 
+
+const getBlogByUser = async (req, res) => {
+  const { Id } = req.user;
+  console.log(Id);
+ 
+ 
+  try {
+    
+    const userBlogs = await Blog.find({creator:Id}).populate('creator');  // Fetch blogs for the current user
+    
+    if (userBlogs.length === 0) {
+      return res.status(404).json({ message: "No blogs found for this user." });
+    }
+
+    return res.status(200).json({ blogs: userBlogs });
+  } catch (error) {
+    return res.status(500).json({ message: "Error fetching blogs.", error });
+  }
+};
+
+
 const deleteBlog = async (req, res) => {
   const id = req.params.id;
-  console.log(id);
+ 
   try {
     const findBlog = await Blog.findById(id);
 
@@ -209,8 +233,6 @@ const updateBlog = async (req,res)=>{
 
 
   const searchBlog = async(req,res)=>{
-   
-    // console.log(key);
     try {
       const blogs = await Blog.find({
         "$or":[
@@ -242,5 +264,6 @@ module.exports = {
   updateBlog,
   getBlogPerPage,
   increaseView,
-  searchBlog
+  searchBlog,
+  getBlogByUser
 };

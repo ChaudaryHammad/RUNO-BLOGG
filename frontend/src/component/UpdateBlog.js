@@ -11,7 +11,7 @@ function UpdateBlog() {
   const { id } = useParams();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const navigate = useNavigate();
+ 
   const [avatar, setAvatar] = useState(null);
   const {blogs} = useSelector((state)=>state.blogs)
 const dispatch = useDispatch()
@@ -81,21 +81,7 @@ const handleFileInputChange=(e)=>{
                 />
               </div>
 
-              <div className="flex flex-col mt-2">
-                <label htmlFor="description" className="font-bold">
-                  Description
-                </label>
-
-                <input
-                  type="text"
-                  className="border border-black p-1 w-[300px]"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  name="description"
-                  id="description"
-                />
-              </div>
-
+           
               <div>
                 <button
                   type="submit"

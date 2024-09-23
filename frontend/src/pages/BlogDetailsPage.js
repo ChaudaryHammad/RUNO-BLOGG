@@ -1,18 +1,11 @@
-
-
-import Nav from '../component/Nav'
-import BlogDetails from '../component/BlogDetails'
-
+import BlogDetails from "../component/BlogDetails";
 
 function BlogDetailsPage() {
- 
-   
   return (
     <>
-   <Nav/>
-    <BlogDetails />
+      <BlogDetails />
     </>
-  )
+  );
 }
 
-export default BlogDetailsPage
+export default BlogDetailsPage;
