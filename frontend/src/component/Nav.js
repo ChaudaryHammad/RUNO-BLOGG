@@ -40,13 +40,13 @@ function Nav() {
   const navigate = useNavigate()
   const [active, setActive] = useState(false);
 
-  // window.addEventListener("scroll", () => {
-  //   if (window.scrollY > 70) {
-  //     setActive(true);
-  //   } else {
-  //     setActive(false);
-  //   }
-  // });
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 70) {
+      setActive(true);
+    } else {
+      setActive(false);
+    }
+  });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -91,9 +91,9 @@ function Nav() {
   return (
     <>
       <nav className={`${
-          active === true ? " shadow-sm fixed w-full top-0 left-0 z-10" : null
+          active === true ? "transition-all duration-500 ease-in  shadow-sm fixed w-full top-0 left-0 z-10" : null
         }`} >
-        <div className={` flex justify-between items-center px-14 py-6 bg-black text-[#e5e7ea]`}>
+        <div className={`transition-all duration-500 ease-in  flex justify-between items-center px-14 py-6 bg-black text-[#e5e7ea]`}>
           <div>
          
                 <Link
@@ -119,18 +119,20 @@ function Nav() {
                   Home
                 </Link>
               </li>
-              <li>
-                <Link
-                  to={"/create-blog"}
-                  className={`${
-                    location.pathname === "/create-blog"
-                      ? "text-indigo-500"
-                      : "text-white"
-                  } p-2 hover:border-b  border-white cursor-pointer`}
-                >
-                  Create
-                </Link>
-              </li>
+             {
+              user &&  <li>
+              <Link
+                to={"/create-blog"}
+                className={`${
+                  location.pathname === "/create-blog"
+                    ? "text-indigo-500"
+                    : "text-white"
+                } p-2 hover:border-b  border-white cursor-pointer`}
+              >
+                Create
+              </Link>
+            </li>
+             }
               <li>
                 <Link
                   to={"/profile"}

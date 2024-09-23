@@ -9,17 +9,20 @@ import RegistrationPage from './pages/RegistrationPage'
 import LoginPage from './pages/LoginPage';
 import ForgetPasswordPage from './pages/ForgetPasswordPage'
 import ResetPage from './pages/ResetPage'
+import { useSelector } from 'react-redux'
 
 function App() {
+  const {user} = useSelector((state)=>state.user)
+  
   return (
     
    <BrowserRouter>
    <Routes>
    
     <Route path="/" element={<Home/>} />
-    <Route path="/create-blog" element={<CreateBlogPage/>} />
+    <Route path="/create-blog" element={user && <CreateBlogPage/>} />
     <Route path="/blog/:id" element={<BlogDetailsPage/>} />
-    <Route path="/update-blog/:id" element={<UpdateBlogPage/>} />
+    <Route path="/update-blog/:id" element={user && <UpdateBlogPage/>} />
 
 
 
