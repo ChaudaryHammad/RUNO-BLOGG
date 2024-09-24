@@ -11,6 +11,7 @@ import "react-quill/dist/quill.snow.css";
 function CreateBlog() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [loading, setLoading] = useState(false);  
 
   const modules = {
     toolbar: [
@@ -54,18 +55,21 @@ function CreateBlog() {
   };
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
+
     e.preventDefault();
+    setLoading(true);
     const data = {
       title,
       description,
       avatar,
       userId: user._id,
     };
-    console.log(data);
+  
     axios
       .post(`${backend_url}/blog/create-blog`, data)
       .then((res) => {
         dispatch(addBlog(res.data.data));
+        setLoading(false);
         toast.success(res.data.message);
         setTitle("");
         setDescription("");
@@ -148,10 +152,11 @@ function CreateBlog() {
 
               <div>
                 <button
+                disabled={loading}
                   type="submit"
                   className="border px-2 py-2 rounded-md shadow-sm text-sm font-medium w-full border-blue-800 mt-3 p-1 hover:bg-blue-800 hover:text-white"
                 >
-                  Create
+                  {loading ? "Loading..." : "Create Blog"}
                 </button>
               </div>
             </div>

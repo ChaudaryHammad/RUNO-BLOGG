@@ -39,6 +39,9 @@ function Nav() {
 
   const navigate = useNavigate()
 
+  const toggleMenu = () => {
+    setOpen(!open);
+  };
 
   function handleChange() {
     setOpen(!open);
@@ -255,8 +258,8 @@ function Nav() {
 
         {open ? (
           <>
-            <div className="bg-black text-white w-full absolute right-0 top-0 h-screen z-50 lg:hidden ">
-              <div className="flex justify-between mx-8 p-6">
+            <div className="bg-black text-white w-full absolute right-0 top-0 h-screen z-50 lg:hidden  transition-all">
+              <div className="flex justify-between  px-8 py-4">
                 <div>
                   <h1
                     className="text-[20px] font-bold "
@@ -282,31 +285,39 @@ function Nav() {
                   )}
                 </div>
               </div>
-              <ul className="flex flex-col gap-2 items-center ">
+              <ul className="flex flex-col gap-2 items-center " onClick={toggleMenu}>
                 <Link
                   className="p-2 border border-white w-full text-center hover:bg-white hover:text-black"
                   to={"/"}
                 >
                   Home
                 </Link>
+
+                <ul className="flex w-full flex-col gap-2 items-center " onClick={toggleMenu}>
                 <Link
+                  to={`${user?"/create-blog":"/blogs"}`}
                   className="p-2 border border-white w-full text-center hover:bg-white hover:text-black"
-                  to={"/create-blog"}
                 >
-                  Create
-                </Link>
-                <Link
-                  className="p-2 border border-white w-full text-center hover:bg-white hover:text-black"
-                  to={"/profile"}
-                >
-                  Articles
-                </Link>
-                <Link className="p-2 border border-white w-full text-center hover:bg-white hover:text-black">
-                  Contact Us
+                 {
+                    user? "Write":"Blogs"
+                 }
                 </Link>
               </ul>
+              
+              {
+                user &&  <ul className="flex w-full flex-col gap-2 items-center" onClick={toggleMenu}>
+                <Link
+                  to={`${"/user-blogs"}`}
+                   className="p-2 border border-white w-full text-center hover:bg-white hover:text-black"
+                >
+                 My Articles
+                </Link>
+              </ul>
+              }
+               
+              </ul>
 
-              <div className="flex justify-center h-[220px] mt-5 mb-5 items-center ">
+              <div className="flex justify-center h-[220px] mt-5 mb-5 items-center " onClick={toggleMenu}>
                 {user? (
                   <>
                   <Link to={"/profile"}>
@@ -370,14 +381,17 @@ function Nav() {
                   </Link>
                 </ul>
               </div>
-              <div className="text-center p-3 mt-1">
-                <p
-                  onClick={handleLogout}
+            
+             {
+                user && <div className="flex justify-center mt-5">
+                <button
                   className="cursor-pointer hover:text-gray-400 underline"
+                  onClick={handleLogout}
                 >
                   Logout
-                </p>
+                </button>
               </div>
+             }
             </div>
           </>
         ) : null}

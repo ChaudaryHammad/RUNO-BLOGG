@@ -58,7 +58,12 @@ aspect-square w-8 flex justify-center items-center text-yellow-700" />
 
   
   return (
-    <div className="container mx-auto p-6">
+    <div className="container mx-auto ">
+       
+       <h1 className="py-6 text-center text-4xl font-light  underline decoration-wavy decoration-teal-500 text-gray-800">
+        My Articles
+      </h1>
+
       {/* Blog List */}
       <div className=" ">
         {blogs ? (
