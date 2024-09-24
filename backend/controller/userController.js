@@ -37,7 +37,8 @@ const register = async(req,res)=>{
                 path:'/',
                 expires:new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
                 httpOnly:true,
-                sameSite:'lax'
+                secure:true,
+                sameSite:'none'
             }).status(201).json({token,rest,message:"User registered successfully"})
             
         } catch (error) {
@@ -69,10 +70,11 @@ const login = async(req,res)=>{
         const {password:pass,...rest} = user._doc;
        
        return res.cookie("token",token,{
-            path:'/',
-            expires:new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
-            httpOnly:true,
-            sameSite:'lax'
+        path:'/',
+        expires:new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
+        httpOnly:true,
+        secure:true,
+        sameSite:'none'
         }).status(200).json({token,rest,message:"User logged in successfully"})
         
     } catch (error) {
