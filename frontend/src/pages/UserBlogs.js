@@ -18,12 +18,16 @@ const [blogs, setBlogs] = useState([]);
   }, []);
 
   const fetchBlogs = async () => {
+    setLoading(true);
+
     try {
       const response = await axios.get(`${backend_url}/blog/get-user-blogs`,{
         withCredentials:true
       });
-      const data = response.data.blogs;
+      const data = response.data.blogs
+      
         setBlogs(data);
+
      
       setLoading(false);
     } catch (error) {
@@ -41,6 +45,16 @@ const [blogs, setBlogs] = useState([]);
     }
   };
 
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center container">
+    <div className="loader border-t-2 rounded-full border-gray-500 bg-gray-300 animate-spin
+aspect-square w-8 flex justify-center items-center text-yellow-700" />
+
+      </div >
+    )
+  }
 
   
   return (

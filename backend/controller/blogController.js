@@ -52,15 +52,26 @@ const setBlog = async (req, res) => {
 };
 
 const getAllBlogs = async (req, res) => {
+  const page = parseInt(req.query.page) || 1; // Default to page 1
+  const limit = parseInt(req.query.limit) || 5; // Default to 10 blogs per page
+  const skip = (page - 1) * limit; // Calculate the number of documents to skip
+
   try {
-    const blogs = await Blog.find().populate('creator', 'username avatar');
+    const blogs = await Blog.find()
+      .populate('creator', 'username avatar')
+      .skip(skip)
+      .limit(limit)
+      .sort({ createdAt: -1 });
 
-console.log(blogs);
-
+    const totalBlogs = await Blog.countDocuments(); // Count total documents
+    const totalPages = Math.ceil(totalBlogs / limit); // Calculate total pages
 
     res.status(200).json({
       message: "All Blogs",
       data: blogs,
+      totalBlogs,   // Total number of blogs
+      totalPages,   // Total number of pages
+      currentPage: page, // Current page number
     });
   } catch (error) {
     res.status(500).json({

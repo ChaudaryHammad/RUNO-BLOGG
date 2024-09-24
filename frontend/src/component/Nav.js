@@ -67,7 +67,7 @@ function Nav() {
   return (
     <>
       <nav className={`bg-[#000]  fixed w-full z-20`} >
-        <div className={`transition-all duration-500 ease-in  flex justify-between items-center px-14 py-4 bg-black/10 text-[#e5e7ea]`}>
+        <div className={`transition-all duration-500 ease-in  flex justify-between items-center px-8 py-4 bg-black/10 text-[#e5e7ea]`}>
           <div>
          
                 <Link
@@ -104,7 +104,7 @@ function Nav() {
                   } p-2 hover:border-b  border-white cursor-pointer`}
                 >
                  {
-                    user? "Create":"Blogs"
+                    user? "Write":"Blogs"
                  }
                 </Link>
               </li>
